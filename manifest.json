@@ -1,0 +1,39 @@
+{
+    "manifest_version": 2,
+    "name": "StreamScript",
+    "version": "1.2.2",
+    "author": "RC-14",
+    "description": "Redirects to the source video and adds extra controls to mp4 files.",
+    "icons": {
+        "48": "icons/48.png",
+        "96": "icons/96.png"
+    },
+    "background": {
+        "scripts": [
+            "js/background.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.vivo.sx/*",
+                "*://streamta.pe/*",
+                "*://streamtape.com/*",
+                "*://streamtape.site/*",
+                "*://strtape.tech/*",
+                "*://vidoza.net/*",
+                "*://voe.sx/*",
+                "*://*/*.mp4",
+                "*://*/*.mp4?*",
+                "file:///*.mp4",
+                "file:///*.mp4?*"
+            ],
+            "js": [
+                "js/content.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "<all_urls>"
+    ]
+}
