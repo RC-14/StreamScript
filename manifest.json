@@ -28,6 +28,7 @@
                 "file:///*.mp4",
                 "file:///*.mp4?*"
             ],
+            "all_frames": true,
             "js": [
                 "js/content.js"
             ]
