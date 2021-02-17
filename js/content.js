@@ -89,6 +89,19 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			function skipOpeningFunction() {
 				video.currentTime += openingLength;
 			}
+			function rewind10SecondsFunction() {
+				video.currentTime -= 10;
+			}
+			function pauseOrPlayFunction() {
+				if (video.paused) {
+					video.play();
+				} else {
+					video.pause();
+				}
+			}
+			function skip10SecondsFunction() {
+				video.currentTime += 10;
+			}
 
 			var fullscreenButton = document.createElement("button");
 			fullscreenButton.onclick = fullscreenFunction;
@@ -102,13 +115,53 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			skipOpeningButton.textContent = "Skip Opening = S";
 			document.body.appendChild(skipOpeningButton);
 
+			document.body.appendChild(document.createElement("br"));
+
+			var rewind10SecondsButton = document.createElement("button");
+			rewind10SecondsButton.onclick = rewind10SecondsFunction;
+			rewind10SecondsButton.textContent = "Rewind 10s = J";
+			document.body.appendChild(rewind10SecondsButton);
+
+			document.body.appendChild(document.createElement("br"));
+
+			var pauseOrPlayButton = document.createElement("button");
+			pauseOrPlayButton.onclick = pauseOrPlayFunction;
+			pauseOrPlayButton.textContent = "Pause/Play = K";
+			document.body.appendChild(pauseOrPlayButton);
+
+			document.body.appendChild(document.createElement("br"));
+
+			var skip10SecondsButton = document.createElement("button");
+			skip10SecondsButton.onclick = skip10SecondsFunction;
+			skip10SecondsButton.textContent = "Skip 10s = L";
+			document.body.appendChild(skip10SecondsButton);
+
 			document.addEventListener(
 				"keydown",
 				(key) => {
-					if (key.code === "KeyF") {
-						fullscreenFunction();
-					} else if (key.code === "KeyS") {
-						skipOpeningFunction();
+					switch (key.code) {
+						case "KeyF":
+							fullscreenFunction();
+							break;
+
+						case "KeyS":
+							skipOpeningFunction();
+							break;
+
+						case "KeyJ":
+							rewind10SecondsFunction();
+							break;
+
+						case "KeyK":
+							pauseOrPlayFunction();
+							break;
+
+						case "KeyL":
+							skip10SecondsFunction();
+							break;
+
+						default:
+							break;
 					}
 				},
 				false
