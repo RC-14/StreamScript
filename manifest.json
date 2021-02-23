@@ -23,6 +23,7 @@
                 "*://strtape.tech/*",
                 "*://vidoza.net/*",
                 "*://voe.sx/*",
+                "*://mixdrop.co/*",
                 "*://*/*.mp4",
                 "*://*/*.mp4?*",
                 "file:///*.mp4",

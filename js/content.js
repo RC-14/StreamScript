@@ -31,7 +31,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 
 	var getVideoSrc;
 
-	if (host === "vivo.sx" || host === "vidoza.net") {
+	if (host === "vivo.sx" || host === "vidoza.net" || host === "mixdrop.co") {
 		// general
 		getVideoSrc = () => {
 			var result = new Promise((resolve, reject) => {
