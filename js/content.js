@@ -27,11 +27,11 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		return promise;
 	}
 
-	var host = location.pathname.split("?")[0].split("#")[0].endsWith(".mp4") ? "*/*.mp4" : location.host.replace(/.+(\.vivo.sx)/g, "*$1");
-
+	var host = location.pathname.split("?")[0].split("#")[0].endsWith(".mp4") ? "*/*.mp4" : location.host.replace(/^.+(\.vivo.sx)/g, "*$1").replace(/^([^\.\/]+\.)+[^\.\/]+\/.+/g, "$1*");
+	
 	var getVideoSrc;
 
-	if (host === "vivo.sx" || host === "vidoza.net" || host === "mixdrop.co") {
+	if (host === "vivo.sx/*" || host === "vidoza.net/*" || host === "mixdrop.co/*") {
 		// general
 		getVideoSrc = () => {
 			var result = new Promise((resolve, reject) => {
@@ -43,7 +43,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			});
 			return result;
 		};
-	} else if (host === "streamta.pe" || host === "streamtape.com" || host === "streamtape.site" || host === "strtape.tech") {
+	} else if (host === "streamta.pe/*" || host === "streamtape.com/*" || host === "streamtape.site/*" || host === "strtape.tech/*") {
 		// streamtape
 		getVideoSrc = async () => {
 			var result = new Promise((resolve, reject) => {
@@ -58,7 +58,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			});
 			return result;
 		};
-	} else if (host === "voe.sx") {
+	} else if (host === "voe.sx/*") {
 		// voe
 		getVideoSrc = () => {
 			var result = new Promise((resolve, reject) => {
@@ -70,7 +70,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			});
 			return result;
 		};
-	} else if (host === "*/*.mp4" || host === "*.vivo.sx") {
+	} else if (host === "*/*.mp4" || host === "*.vivo.sx/*") {
 		// mp4 files
 
 		var video = document.getElementsByTagName("video")[0];
