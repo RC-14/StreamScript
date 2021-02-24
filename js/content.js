@@ -130,39 +130,6 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 				video.currentTime += 10;
 			}
 
-			var fullscreenButton = document.createElement("button");
-			fullscreenButton.onclick = fullscreenFunction;
-			fullscreenButton.textContent = "Fullscreen = F";
-			document.body.appendChild(fullscreenButton);
-
-			document.body.appendChild(document.createElement("br"));
-
-			var skipOpeningButton = document.createElement("button");
-			skipOpeningButton.onclick = skipOpeningFunction;
-			skipOpeningButton.textContent = "Skip Opening = S";
-			document.body.appendChild(skipOpeningButton);
-
-			document.body.appendChild(document.createElement("br"));
-
-			var rewind10SecondsButton = document.createElement("button");
-			rewind10SecondsButton.onclick = rewind10SecondsFunction;
-			rewind10SecondsButton.textContent = "Rewind 10s = J";
-			document.body.appendChild(rewind10SecondsButton);
-
-			document.body.appendChild(document.createElement("br"));
-
-			var pauseOrPlayButton = document.createElement("button");
-			pauseOrPlayButton.onclick = pauseOrPlayFunction;
-			pauseOrPlayButton.textContent = "Pause/Play = K";
-			document.body.appendChild(pauseOrPlayButton);
-
-			document.body.appendChild(document.createElement("br"));
-
-			var skip10SecondsButton = document.createElement("button");
-			skip10SecondsButton.onclick = skip10SecondsFunction;
-			skip10SecondsButton.textContent = "Skip 10s = L";
-			document.body.appendChild(skip10SecondsButton);
-
 			//add controls for keyboard
 			document.addEventListener("keydown", (key) => {
 				switch (key.code) {
