@@ -37,10 +37,11 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		host = location.host;
 	}
 	host = host.replace(/^.+(\.vivo.sx)/g, "*$1");
+	console.log('StreamScript: host = "' + host + '"');
 
 	var getVideoSrc;
 
-	if (host === "vivo.sx/*" || host === "vidoza.net/*" || host === "mixdrop.co/*") {
+	if (host === "vivo.sx/*" || host === "vidoza.net/*") {
 		// general
 		getVideoSrc = () => {
 			var result = new Promise((resolve, reject) => {
@@ -74,6 +75,22 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			var result = new Promise((resolve, reject) => {
 				if (document.body.innerHTML.split('"mp4": "').length > 0) {
 					resolve(encodeURI(document.body.innerHTML.split('"mp4": "')[1].split('"')[0]));
+				} else {
+					reject();
+				}
+			});
+			return result;
+		};
+	} else if (host === "mixdrop.co/*") {
+		// mixdrop
+		getVideoSrc = async () => {
+			var result = new Promise((resolve, reject) => {
+				if (document.getElementsByClassName("vjs-big-play-button").length > 0) {
+					document.getElementsByClassName("vjs-big-play-button")[0].click();
+					document.getElementsByClassName("vjs-big-play-button")[0].click();
+					setTimeout(() => {
+						resolve(encodeURI(document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc));
+					}, 1000);
 				} else {
 					reject();
 				}
