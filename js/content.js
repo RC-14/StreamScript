@@ -1,3 +1,4 @@
+var isChromeBased = Boolean(window.chrome);
 if (document.getElementById("StreamScriptExecuted") === null) {
 	document.body.appendChild(
 		(function (div) {
@@ -145,6 +146,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			skip10SecondsButton.textContent = "Skip 10s = L";
 			document.body.appendChild(skip10SecondsButton);
 
+			//add controls for keyboard
 			document.addEventListener("keydown", (key) => {
 				switch (key.code) {
 					case "KeyF":
@@ -163,6 +165,9 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 						pauseOrPlayFunction();
 						break;
 
+					case "Space":
+						if (isChromeBased) pauseOrPlayFunction();
+
 					case "KeyL":
 						skip10SecondsFunction();
 						break;
@@ -171,9 +176,10 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 						break;
 				}
 			});
+			//pause the video when visibility changes to hidden
 			document.addEventListener("visibilitychange", () => {
 				if (document.visibilityState === "hidden" && !video.paused) {
-					video.pause()
+					video.pause();
 				}
 			});
 		}
