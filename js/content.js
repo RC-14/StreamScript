@@ -184,6 +184,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 
 					case "Space":
 						if (isChromeBased) pauseOrPlayFunction();
+						break;
 
 					case "KeyL":
 						skip10SecondsFunction();
