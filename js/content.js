@@ -145,36 +145,37 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			skip10SecondsButton.textContent = "Skip 10s = L";
 			document.body.appendChild(skip10SecondsButton);
 
-			document.addEventListener(
-				"keydown",
-				(key) => {
-					switch (key.code) {
-						case "KeyF":
-							fullscreenFunction();
-							break;
+			document.addEventListener("keydown", (key) => {
+				switch (key.code) {
+					case "KeyF":
+						fullscreenFunction();
+						break;
 
-						case "KeyS":
-							skipOpeningFunction();
-							break;
+					case "KeyS":
+						skipOpeningFunction();
+						break;
 
-						case "KeyJ":
-							rewind10SecondsFunction();
-							break;
+					case "KeyJ":
+						rewind10SecondsFunction();
+						break;
 
-						case "KeyK":
-							pauseOrPlayFunction();
-							break;
+					case "KeyK":
+						pauseOrPlayFunction();
+						break;
 
-						case "KeyL":
-							skip10SecondsFunction();
-							break;
+					case "KeyL":
+						skip10SecondsFunction();
+						break;
 
-						default:
-							break;
-					}
-				},
-				false
-			);
+					default:
+						break;
+				}
+			});
+			document.addEventListener("visibilitychange", () => {
+				if (document.visibilityState === "hidden" && !video.paused) {
+					video.pause()
+				}
+			});
 		}
 	}
 
