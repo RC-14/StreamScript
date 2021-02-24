@@ -103,6 +103,17 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		var video = document.getElementsByTagName("video")[0];
 		var openingLength = 90 - 3; // in seconds
 
+		var helpMessage =
+			"Video controls:\n" + ['"F" = Fullscreen on/off', '"S" = skip opening (87 seconds)', '"J" = rewind 10 Seconds', '"Space"/"K" = pause/play', '"L" = skip 10 seconds'].join("\n");
+
+		var helpButton = document.createElement("button");
+		helpButton.textContent = "Help";
+		helpButton.onclick = () => {
+			video.pause();
+			alert(helpMessage);
+		};
+		document.body.append(helpButton);
+
 		if (video !== undefined) {
 			function fullscreenFunction() {
 				if (!document.fullscreenElement) {
@@ -130,17 +141,6 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 				video.currentTime += 10;
 			}
 
-			var helpMessage =
-				"Video controls:\n" + ['"F" = Fullscreen on/off', '"S" = skip opening (87 seconds)', '"J" = rewind 10 Seconds', '"Space"/"K" = pause/play', '"L" = skip 10 seconds'].join("\n");
-
-			var helpButton = document.createElement("button");
-			helpButton.textContent = "Help";
-			helpButton.onclick = () => {
-				video.pause();
-				alert(helpMessage);
-			};
-			document.body.append(helpButton);
-
 			//add controls for keyboard
 			document.addEventListener("keydown", (key) => {
 				switch (key.code) {
@@ -161,7 +161,9 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 						break;
 
 					case "Space":
-						if (isChromeBased) pauseOrPlayFunction();
+						if (isChromeBased) {
+							pauseOrPlayFunction();
+						}
 						break;
 
 					case "KeyL":
