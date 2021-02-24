@@ -208,7 +208,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 				if (videoSrc !== "") {
 					checkIfUrlAvailabe(videoSrc).then(
 						() => {
-							open(videoSrc, "_self");
+							open(videoSrc, "_self", "noopener, noreferrer");
 						},
 						() => {
 							window.location.reload();
