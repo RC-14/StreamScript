@@ -130,6 +130,17 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 				video.currentTime += 10;
 			}
 
+			var helpMessage =
+				"Video controls:\n" + ['"F" = Fullscreen on/off', '"S" = skip opening (87 seconds)', '"J" = rewind 10 Seconds', '"Space"/"K" = pause/play', '"L" = skip 10 seconds'].join("\n");
+
+			var helpButton = document.createElement("button");
+			helpButton.textContent = "Help";
+			helpButton.onclick = () => {
+				video.pause();
+				alert(helpMessage);
+			};
+			document.body.append(helpButton);
+
 			//add controls for keyboard
 			document.addEventListener("keydown", (key) => {
 				switch (key.code) {
