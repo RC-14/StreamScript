@@ -53,7 +53,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			});
 			return result;
 		};
-	} else if (host === "streamta.pe/*" || host === "streamtape.com/*" || host === "streamtape.site/*" || host === "strtape.tech/*" || host === "strtape.cloud") {
+	} else if (host === "streamta.pe/*" || host === "streamtape.com/*" || host === "streamtape.site/*" || host === "strtape.tech/*" || host === "strtape.cloud/*") {
 		// streamtape
 		getVideoSrc = async () => {
 			var result = new Promise((resolve, reject) => {
