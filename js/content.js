@@ -101,6 +101,8 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		// mp4 files
 
 		var video = document.getElementsByTagName("video")[0];
+		video.pause();
+		video.currentTime = 0;
 		var openingLength = 90 - 3; // in seconds
 
 		var helpMessage =
