@@ -16,9 +16,9 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 					var status = request.status;
 					request.abort();
 					if (status === 0 || (status >= 200 && status < 400)) {
-						resolve(true);
+						resolve();
 					} else {
-						resolve(false);
+						reject();
 					}
 				}
 			};
@@ -27,8 +27,16 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		return promise;
 	}
 
-	var host = location.pathname.split("?")[0].split("#")[0].endsWith(".mp4") ? "*/*.mp4" : location.host.replace(/^.+(\.vivo.sx)/g, "*$1").replace(/^([^\.\/]+\.)+[^\.\/]+\/.+/g, "$1*");
-	
+	var host = location.pathname.split("?")[0].split("#")[0];
+	if (host.endsWith(".mp4")) {
+		host = "*/*.mp4";
+	} else if (!(host === "/" || host === "")) {
+		host = location.host + "/*";
+	} else {
+		host = location.host;
+	}
+	host = host.replace(/^.+(\.vivo.sx)/g, "*$1");
+
 	var getVideoSrc;
 
 	if (host === "vivo.sx/*" || host === "vidoza.net/*" || host === "mixdrop.co/*") {
@@ -48,6 +56,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		getVideoSrc = async () => {
 			var result = new Promise((resolve, reject) => {
 				if (document.getElementsByClassName("plyr-overlay").length > 0) {
+					document.getElementsByClassName("plyr-overlay")[0].click();
 					document.getElementsByClassName("plyr-overlay")[0].click();
 					setTimeout(() => {
 						resolve(encodeURI(document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc));
@@ -170,16 +179,17 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 	}
 
 	if (getVideoSrc !== undefined) {
-		var id = setTimeout(() => {
+		setTimeout(() => {
 			getVideoSrc().then((videoSrc) => {
 				if (videoSrc !== "") {
-					checkIfUrlAvailabe(videoSrc).then((available) => {
-						if (available) {
+					checkIfUrlAvailabe(videoSrc).then(
+						() => {
 							open(videoSrc, "_self");
-						} else {
+						},
+						() => {
 							window.location.reload();
 						}
-					});
+					);
 				}
 			});
 		}, 100);
