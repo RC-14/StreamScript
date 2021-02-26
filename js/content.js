@@ -153,7 +153,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			function decreaseVolumeFunction() {
 				if (video.volume < 0.1 && video.volume > 0) {
 					video.volume = 0;
-				} else if (video.volume < 1) {
+				} else if (video.volume > 0) {
 					video.volume -= 0.1;
 				}
 			}
