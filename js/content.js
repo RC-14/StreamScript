@@ -106,7 +106,17 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		var openingLength = 90 - 3; // in seconds
 
 		var helpMessage =
-			"Video controls:\n" + ['"F" = Fullscreen on/off', '"S" = skip opening (87 seconds)', '"J" = rewind 10 Seconds', '"Space"/"K" = pause/play', '"L" = skip 10 seconds'].join("\n");
+			"Video controls:\n" +
+			[
+				'"F" = Fullscreen on/off',
+				'"S" = skip opening (87 seconds)',
+				'"J" = rewind 10 Seconds',
+				'"Space"/"K" = pause/play',
+				'"L" = skip 10 seconds',
+				'"O" = increase volume',
+				'"I" = decrease volume',
+				'"M" = mute/unmute',
+			].join("\n");
 
 		var helpButton = document.createElement("button");
 		helpButton.textContent = "Help";
@@ -142,6 +152,27 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			function skip10SecondsFunction() {
 				video.currentTime += 10;
 			}
+			function increaseVolumeFunction() {
+				if (video.volume > 0.9 && video.volume < 1) {
+					video.volume = 1;
+				} else if (video.volume < 1) {
+					video.volume += 0.1;
+				}
+			}
+			function decreaseVolumeFunction() {
+				if (video.volume < 0.1 && video.volume > 0) {
+					video.volume = 0;
+				} else if (video.volume < 1) {
+					video.volume -= 0.1;
+				}
+			}
+			function muteOrUnmuteFunction() {
+				if (video.muted) {
+					video.muted = false;
+				} else {
+					video.muted = true;
+				}
+			}
 
 			//add controls for keyboard
 			document.addEventListener("keydown", (key) => {
@@ -170,6 +201,18 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 
 					case "KeyL":
 						skip10SecondsFunction();
+						break;
+
+					case "KeyO":
+						increaseVolumeFunction();
+						break;
+
+					case "KeyI":
+						decreaseVolumeFunction();
+						break;
+
+					case "KeyM":
+						muteOrUnmuteFunction();
 						break;
 
 					default:
