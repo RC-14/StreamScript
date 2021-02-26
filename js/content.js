@@ -217,6 +217,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 				}
 			});
 			
+			//add help button
 			var helpButton = document.createElement("button");
 			helpButton.textContent = "Help";
 			helpButton.onclick = () => {
