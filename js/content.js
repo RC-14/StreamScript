@@ -104,7 +104,6 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		video.pause();
 		video.currentTime = 0;
 		var openingLength = 90 - 3; // in seconds
-
 		var helpMessage =
 			"Video controls:\n" +
 			[
@@ -117,14 +116,6 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 				'"I" = decrease volume',
 				'"M" = mute/unmute',
 			].join("\n");
-
-		var helpButton = document.createElement("button");
-		helpButton.textContent = "Help";
-		helpButton.onclick = () => {
-			video.pause();
-			alert(helpMessage);
-		};
-		document.body.append(helpButton);
 
 		if (video !== undefined) {
 			function fullscreenFunction() {
@@ -225,6 +216,14 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 					video.pause();
 				}
 			});
+			
+			var helpButton = document.createElement("button");
+			helpButton.textContent = "Help";
+			helpButton.onclick = () => {
+				video.pause();
+				alert(helpMessage);
+			};
+			document.body.append(helpButton);
 		}
 	}
 
