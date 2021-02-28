@@ -1,4 +1,37 @@
+const devBuild = false;
+console.log("StreamScript: devBuild = " + devBuild);
+
+// check for new version
+(async () => {
+	var promise = new Promise((resolve, reject) => {
+		var request = new XMLHttpRequest();
+		// get HTML of the GitHub page of the latest release
+		request.open("GET", "https://github.com/RC-14/StreamScript/releases/latest");
+		request.onreadystatechange = () => {
+			if (request.readyState === XMLHttpRequest.DONE) {
+				// get installed version from manifest
+				var version = chrome.runtime.getManifest().version;
+				console.log("StreamScript: version = " + version);
+				// get latest version from title
+				var latest = request.responseText.split(/<\/?title>/g)[1].match(/v\d(\.\d+){2}/g)[0];
+				console.log("StreamScript: latest = " + latest);
+				// check if the installed version is also the latest version on github (ignore check if this is a devBuild)
+				if (version !== latest.replace("v", "") && !devBuild) {
+					resolve(latest);
+				}
+				reject();
+			}
+		};
+		request.send();
+	});
+	return promise;
+})().then((newVersion) => {
+	alert("New version available: " + newVersion + "\nhttps://github.com/RC-14/StreamScript/releases/latest");
+});
+
+// if the browser is based on Chromium window.chrome won't be undefined
 var isChromeBased = Boolean(window.chrome);
+
 if (document.getElementById("StreamScriptExecuted") === null) {
 	document.body.appendChild(
 		(function (div) {
@@ -9,7 +42,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 	);
 
 	function checkIfUrlAvailabe(url) {
-		var promise = new Promise(function (resolve, reject) {
+		var promise = new Promise((resolve, reject) => {
 			var request = new XMLHttpRequest();
 			request.open("GET", url);
 			request.onreadystatechange = () => {
@@ -216,7 +249,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 					video.pause();
 				}
 			});
-			
+
 			//add help button
 			var helpButton = document.createElement("button");
 			helpButton.textContent = "Help";
