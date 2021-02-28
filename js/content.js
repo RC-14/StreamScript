@@ -32,7 +32,9 @@ console.log("StreamScript: devBuild = " + devBuild);
 // if the browser is based on Chromium window.chrome won't be undefined
 var isChromeBased = Boolean(window.chrome);
 
+// only execute if this is the first execution since the page was loaded
 if (document.getElementById("StreamScriptExecuted") === null) {
+	// adding the StreamScriptExecuted div
 	document.body.appendChild(
 		(function (div) {
 			div = document.createElement("div");
@@ -48,10 +50,13 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			request.onreadystatechange = () => {
 				if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
 					var status = request.status;
+					// aborting the request because we don't want to load more than the headers
 					request.abort();
 					if (status === 0 || (status >= 200 && status < 400)) {
+						// resolve if the status tells us that the request was ok
 						resolve();
 					} else {
+						// reject if the status is, for example, 404
 						reject();
 					}
 				}
@@ -61,6 +66,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		return promise;
 	}
 
+	// make a host variable that's more usefull than location.host
 	var host = location.pathname.split("?")[0].split("#")[0];
 	if (host.endsWith(".mp4")) {
 		host = "*/*.mp4";
@@ -75,10 +81,11 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 	var getVideoSrc;
 
 	if (host === "vivo.sx/*" || host === "vidoza.net/*") {
-		// general
+		// general (works in most cases)
 		getVideoSrc = () => {
 			var result = new Promise((resolve, reject) => {
 				if (document.getElementsByTagName("video").length > 0) {
+					// get the source from the last video element from the page to void ads
 					resolve(encodeURI(document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc));
 				} else {
 					reject();
@@ -87,12 +94,14 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			return result;
 		};
 	} else if (host === "streamta.pe/*" || host === "streamtape.com/*" || host === "streamtape.site/*" || host === "strtape.tech/*" || host === "strtape.cloud/*") {
-		// streamtape
+		// Streamtape
 		getVideoSrc = async () => {
 			var result = new Promise((resolve, reject) => {
 				if (document.getElementsByClassName("plyr-overlay").length > 0) {
+					// click 2 times on the player overlay to make Streamtape add the source to the video
 					document.getElementsByClassName("plyr-overlay")[0].click();
 					document.getElementsByClassName("plyr-overlay")[0].click();
+					// wait for a second to make sure the source is in the video and then get the source
 					setTimeout(() => {
 						resolve(encodeURI(document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc));
 					}, 1000);
@@ -107,6 +116,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		getVideoSrc = () => {
 			var result = new Promise((resolve, reject) => {
 				if (document.body.innerHTML.split('"mp4": "').length > 0) {
+					// voe stores the source in a script tag
 					resolve(encodeURI(document.body.innerHTML.split('"mp4": "')[1].split('"')[0]));
 				} else {
 					reject();
@@ -115,12 +125,14 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			return result;
 		};
 	} else if (host === "mixdrop.co/*") {
-		// mixdrop
+		// Mixdrop
 		getVideoSrc = async () => {
 			var result = new Promise((resolve, reject) => {
 				if (document.getElementsByClassName("vjs-big-play-button").length > 0) {
+					// click 2 times on the play button to make Mixdrop add the source to the video
 					document.getElementsByClassName("vjs-big-play-button")[0].click();
 					document.getElementsByClassName("vjs-big-play-button")[0].click();
+					// wait for a second to make sure the source is in the video and then get the source
 					setTimeout(() => {
 						resolve(encodeURI(document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc));
 					}, 1000);
@@ -134,9 +146,10 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		// mp4 files
 
 		var video = document.getElementsByTagName("video")[0];
-		video.pause();
-		video.currentTime = 0;
+
 		var openingLength = 90 - 3; // in seconds
+
+		// help message for the help button
 		var helpMessage =
 			"Video controls:\n" +
 			[
@@ -151,6 +164,10 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			].join("\n");
 
 		if (video !== undefined) {
+			video.pause();
+			video.currentTime = 0;
+
+			// adding all the functions
 			function fullscreenFunction() {
 				if (!document.fullscreenElement) {
 					video.requestFullscreen();
@@ -198,7 +215,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 				}
 			}
 
-			//add controls for keyboard
+			// adding keyboard shortcuts
 			document.addEventListener("keydown", (key) => {
 				switch (key.code) {
 					case "KeyF":
@@ -218,6 +235,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 						break;
 
 					case "Space":
+						// firefox has this by default
 						if (isChromeBased) {
 							pauseOrPlayFunction();
 						}
@@ -263,13 +281,16 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 
 	if (getVideoSrc !== undefined) {
 		setTimeout(() => {
+			// self-explanatory
 			getVideoSrc().then((videoSrc) => {
 				if (videoSrc !== "") {
 					checkIfUrlAvailabe(videoSrc).then(
 						() => {
+							// if url is available redirect to it
 							open(videoSrc, "_self", "noopener, noreferrer");
 						},
 						() => {
+							// else reload to get a new source
 							window.location.reload();
 						}
 					);
@@ -277,6 +298,6 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			});
 		}, 100);
 	}
-} else if (document.getElementById("StreamScriptExecuted") !== null) {
+} else {
 	console.log("StreamScript: already executed");
 }
