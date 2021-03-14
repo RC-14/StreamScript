@@ -97,10 +97,15 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		// Streamtape
 		getVideoSrc = async () => {
 			var result = new Promise((resolve, reject) => {
-				if (document.getElementsByClassName("plyr-overlay").length > 0) {
+				if (document.getElementsByClassName("plyr").length) {
+					// check if there is a overlay element and if not assume that "plyr" is the overlay
+					var clickableClass = "plyr";
+					if (document.getElementsByClassName("plyr-overlay").length) {
+						clickableClass += "-overlay";
+					}
 					// click 2 times on the player overlay to make Streamtape add the source to the video
-					document.getElementsByClassName("plyr-overlay")[0].click();
-					document.getElementsByClassName("plyr-overlay")[0].click();
+					document.getElementsByClassName(clickableClass)[0].click();
+					document.getElementsByClassName(clickableClass)[0].click();
 					// wait for a second to make sure the source is in the video and then get the source
 					setTimeout(() => {
 						resolve(encodeURI(document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc));
