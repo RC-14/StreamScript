@@ -275,7 +275,8 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 
 			//add help button
 			var helpButton = document.createElement("button");
-			helpButton.textContent = "Help";
+			helpButton.textContent = "Help"
+			helpButton.style = "position: fixed; background-color: grey; border-color: darkgrey; border-radius: 10px; font-size: 20px; font-weight: bolder;"
 			helpButton.onclick = () => {
 				video.pause();
 				alert(helpMessage);
