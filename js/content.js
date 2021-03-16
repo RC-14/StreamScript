@@ -66,8 +66,17 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		return promise;
 	}
 
+	var streamtapeDomains = ["streamta.pe", "streamtape.com", "streamtape.site", "strtape.tech", "strtape.cloud"];
+
 	// make a host variable that's more usefull than location.host
-	var host = location.pathname.split("?")[0].split("#")[0];
+	var host = location.pathname;
+	if (streamtapeDomains.includes(location.host)) {
+		host = host.replace(/(^\/[ev]\/[^\/]+)\/.+$/gi, "$1");
+		if (host !== location.pathname) {
+			host = location.host + (location.port === "" ? "" : ":" + location.port) + host;
+			location.replace(location.protocol + "//" + host + location.search + location.hash);
+		}
+	}
 	if (host.endsWith(".mp4")) {
 		host = "*/*.mp4";
 	} else if (!(host === "/" || host === "")) {
@@ -93,7 +102,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			});
 			return result;
 		};
-	} else if (host === "streamta.pe/*" || host === "streamtape.com/*" || host === "streamtape.site/*" || host === "strtape.tech/*" || host === "strtape.cloud/*") {
+	} else if (host.endsWith("/*") && streamtapeDomains.includes(host.replace(/\/\*$/g, ""))) {
 		// Streamtape
 		getVideoSrc = async () => {
 			var result = new Promise((resolve, reject) => {
@@ -275,8 +284,8 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 
 			//add help button
 			var helpButton = document.createElement("button");
-			helpButton.textContent = "Help"
-			helpButton.style = "position: fixed; background-color: grey; border-color: darkgrey; border-radius: 10px; font-size: 20px; font-weight: bolder;"
+			helpButton.textContent = "Help";
+			helpButton.style = "position: fixed; background-color: grey; border-color: darkgrey; border-radius: 10px; font-size: 20px; font-weight: bolder;";
 			helpButton.onclick = () => {
 				video.pause();
 				alert(helpMessage);
