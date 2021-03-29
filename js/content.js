@@ -69,17 +69,10 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 	var streamtapeDomains = ["streamta.pe", "streamtape.com", "streamtape.site", "strtape.tech", "strtape.cloud"];
 
 	// make a host variable that's more usefull than location.host
-	var host = location.pathname;
-	if (streamtapeDomains.includes(location.host)) {
-		host = host.replace(/(^\/[ev]\/[^\/]+)\/.+$/gi, "$1");
-		if (host !== location.pathname) {
-			host = location.host + (location.port === "" ? "" : ":" + location.port) + host;
-			location.replace(location.protocol + "//" + host + location.search + location.hash);
-		}
-	}
-	if (host.endsWith(".mp4")) {
+	var host;
+	if (location.pathname.endsWith(".mp4") && !streamtapeDomains.includes(location.host)) {
 		host = "*/*.mp4";
-	} else if (!(host === "/" || host === "")) {
+	} else if (!(location.pathname === "/" || location.pathname === "")) {
 		host = location.host + "/*";
 	} else {
 		host = location.host;
