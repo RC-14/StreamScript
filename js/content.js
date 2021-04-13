@@ -296,6 +296,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		setTimeout(() => {
 			// self-explanatory
 			getVideoSrc().then((videoSrc) => {
+				if (devBuild) console.log("StreamScript: videoSrc = " + videoSrc);
 				if (videoSrc !== "") {
 					checkIfUrlAvailabe(videoSrc).then(
 						() => {
