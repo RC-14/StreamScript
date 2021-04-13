@@ -1,4 +1,4 @@
-const devBuild = false;
+const devBuild = true;
 console.log("StreamScript: devBuild = " + devBuild);
 
 // check for new version
@@ -291,11 +291,12 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			document.body.append(helpButton);
 		}
 	}
-
+throw new Error("STAP")
 	if (getVideoSrc !== undefined) {
 		setTimeout(() => {
 			// self-explanatory
 			getVideoSrc().then((videoSrc) => {
+				if (devBuild) console.log("StreamScript: videoSrc = " + videoSrc)
 				if (videoSrc !== "") {
 					checkIfUrlAvailabe(videoSrc).then(
 						() => {
