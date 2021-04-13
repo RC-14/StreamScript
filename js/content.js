@@ -109,12 +109,13 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 					document.getElementsByClassName(clickableClass)[0].click();
 					document.getElementsByClassName(clickableClass)[0].click();
 
-					// append ".mp4" to the URL if necessary (required because streamtape sometimes gives us a URL without ".mp4" at the end)
-					var src = document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc;
-					src = src.split("?")[0].endsWith(".mp4") ? src.split("?")[0] + ".mp4?" + src.split("?") : src;
-
 					// wait for a second to make sure the source is in the video and then get the source
 					setTimeout(() => {
+						var src = document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc;
+
+						// append ".mp4" to the URL if necessary (required because streamtape sometimes gives us a URL without ".mp4" at the end)
+						src = src.split("?")[0].endsWith(".mp4") ? src.split("?")[0] + ".mp4?" + src.split("?") : src;
+
 						resolve(encodeURI(src));
 					}, 1000);
 				} else {
