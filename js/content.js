@@ -9,7 +9,7 @@ chrome.runtime.sendMessage({ msg: "getLatestVersion" }, (response) => {
 	console.log("StreamScript: latest = " + response);
 
 	// check if the installed version is also the latest version on github (ignore check if this is a devBuild)
-	if (version !== latest.replace("v", "") && !devBuild) {
+	if (version !== response.replace("v", "") && !devBuild) {
 		alert("New version available: " + response + "\nhttps://github.com/RC-14/StreamScript/releases/latest");
 	}
 });
