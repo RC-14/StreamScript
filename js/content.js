@@ -6,7 +6,7 @@ chrome.runtime.sendMessage({ msg: "getLatestVersion" }, (response) => {
 	var version = chrome.runtime.getManifest().version;
 
 	console.log("StreamScript: version = " + version);
-	console.log("StreamScript: latest = " + response);
+	console.log("StreamScript: latestVersionString = " + response);
 
 	// check if the installed version is also the latest version on github (ignore check if this is a devBuild)
 	if (version !== response.replace("v", "") && !devBuild) {
