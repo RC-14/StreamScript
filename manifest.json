@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "StreamScript",
-    "version": "1.5.8",
+    "version": "1.5.9",
     "author": "RC-14",
     "description": "Redirects to the source video and adds extra controls to mp4 files.",
     "icons": {
