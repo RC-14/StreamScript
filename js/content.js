@@ -109,19 +109,6 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 			});
 			return result;
 		};
-	} else if (host === "voe.sx/*") {
-		// voe
-		getVideoSrc = () => {
-			var result = new Promise((resolve, reject) => {
-				if (document.body.innerHTML.split('"mp4": "').length > 0) {
-					// voe stores the source in a script tag
-					resolve(encodeURI(document.body.innerHTML.split('"mp4": "')[1].split('"')[0]));
-				} else {
-					reject();
-				}
-			});
-			return result;
-		};
 	} else if (host === "mixdrop.co/*") {
 		// Mixdrop
 		getVideoSrc = async () => {
