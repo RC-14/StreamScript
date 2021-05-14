@@ -14,8 +14,8 @@ chrome.runtime.sendMessage({ msg: "getLatestVersion" }, (response) => {
 	}
 });
 
-// if the browser is based on Chromium window.chrome won't be undefined
-var isChromeBased = Boolean(window.chrome);
+// if the browser is based on Chromium browser will be undefined
+const isChromeBased = !Boolean(browser);
 
 // only execute if this is the first execution since the page was loaded
 if (document.getElementById("StreamScriptExecuted") === null) {
