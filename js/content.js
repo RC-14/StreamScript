@@ -62,12 +62,12 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 	} else {
 		host = location.host;
 	}
-	host = host.replace(/^.+(\.vivo.sx)/g, "*$1");
+	host = host.replace(/^.+(\.vivo.s[xt])/g, "*$1");
 	console.log('StreamScript: host = "' + host + '"');
 
 	var getVideoSrc;
 
-	if (host === "vivo.sx/*" || host === "vidoza.net/*") {
+	if (host === "vivo.sx/*" || host === "vivo.st/*" || host === "vidoza.net/*") {
 		// general (works in most cases)
 		getVideoSrc = () => {
 			var result = new Promise((resolve, reject) => {
