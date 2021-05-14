@@ -5,7 +5,7 @@
  */
 
 class UpdateChecker {
-	constructor(url, intervalTimeout = 1800000) {
+	constructor(url, intervalTimeout = 300000) {
 		this.url = url;
 		this.latestVersionString;
 		this.getLatestVersion();
