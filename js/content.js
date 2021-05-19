@@ -51,7 +51,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		return promise;
 	}
 
-	var streamtapeDomains = ["streamta.pe", "streamtape.com", "streamtape.site", "strtape.tech", "strtape.cloud", "strtape.site", "strcloud.in"];
+	var streamtapeDomains = ["streamta.pe", "streamtape.com", "streamtape.site", "strtape.tech", "strtape.cloud", "strtape.site", "strcloud.in", "strcloud.link"];
 
 	// make a host variable that's more usefull than location.host
 	var host;
