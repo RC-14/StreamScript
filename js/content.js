@@ -1,7 +1,7 @@
 const devBuild = false;
 console.log("StreamScript: devBuild = " + devBuild);
 
-chrome.runtime.sendMessage({msg: "getLatestVersion"}, (response) => {
+chrome.runtime.sendMessage({ msg: "getLatestVersion" }, (response) => {
 	// get installed version from manifest
 	var version = chrome.runtime.getManifest().version;
 
@@ -51,16 +51,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 		return promise;
 	}
 
-	var streamtapeDomains = [
-		"streamta.pe",
-		"streamtape.com",
-		"streamtape.site",
-		"strtape.tech",
-		"strtape.cloud",
-		"strtape.site",
-		"strcloud.in",
-		"strcloud.link",
-	];
+	var streamtapeDomains = ["streamta.pe", "streamtape.com", "streamtape.site", "strtape.tech", "strtape.cloud", "strtape.site", "strcloud.in", "strcloud.link"];
 
 	// make a host variable that's more usefull than location.host
 	var host;
@@ -108,9 +99,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 						var src = document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc;
 
 						// append ".mp4" to the URL if necessary (required because streamtape sometimes gives us a URL without ".mp4" at the end)
-						src = !src.split("?")[0].endsWith(".mp4")
-							? src.split("?")[0] + ".mp4?" + (src.split("?").length > 1 ? src.split("?")[1] : "")
-							: src;
+						src = src.split("?")[0].endsWith(".mp4") ? src.split("?")[0] + ".mp4?" + src.split("?") : src;
 
 						resolve(encodeURI(src));
 					}, 1000);
@@ -130,9 +119,7 @@ if (document.getElementById("StreamScriptExecuted") === null) {
 					document.getElementsByClassName("vjs-big-play-button")[0].click();
 					// wait for a second to make sure the source is in the video and then get the source
 					setTimeout(() => {
-						resolve(
-							encodeURI(document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc)
-						);
+						resolve(encodeURI(document.getElementsByTagName("video")[document.getElementsByTagName("video").length - 1].currentSrc));
 					}, 1000);
 				} else {
 					reject();
