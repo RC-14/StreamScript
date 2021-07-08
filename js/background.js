@@ -106,7 +106,6 @@ class InstructionsManager {
 
 			result.push(tmpPath);
 		}
-		console.log(result);
 
 		return result;
 	}

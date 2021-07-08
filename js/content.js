@@ -98,7 +98,6 @@ actions.safeRedirect = (url) => {
 actions.safeRedirectToVideoSrc = (url) => {
 	checkIfUrlAvailabe(url).then(
 		() => {
-			console.log(1);
 			// if url is available redirect to it
 			actions.redirectToVideoSrc(url);
 		},
@@ -111,7 +110,6 @@ actions.safeRedirectToVideoSrc = (url) => {
 actions.basicRedirectToVideoSrc = () => {
 	let videos = document.getElementsByTagName("video");
 	let source = "";
-	console.log(videos);
 	if (videos.length > 0) {
 		// get the source from the last video element (with currentSrc set) from the page to avoid ads and redirect to it
 		for (let i = 0; i < videos.length; i++) {
@@ -292,7 +290,6 @@ chrome.runtime.sendMessage({msg: null}, (msgs) => {
 		actions.addVideoControls();
 	} else {
 		chrome.runtime.sendMessage({msg: messages.GETINSTRUCTIONS, data: location.href}, (response) => {
-			console.log(response);
 			if (document.visibilityState === "visible") {
 				executeInstructions(response);
 				return;
