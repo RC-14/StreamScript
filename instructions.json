@@ -1,0 +1,24 @@
+{
+	"TODO": ["validate vidoza path", "validate mixdrop path", "add missing paths (all)"],
+	"vivo.sx": {
+		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
+	},
+	"vivo.st": "vivo.sx",
+	"streamtape.com": {
+		"/e/*": [
+			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
+			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
+			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
+		]
+	},
+	"vidoza.net": {
+		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
+	},
+	"mixdrop.co": {
+		"/*/*": [
+			{"name": "clickFirstElementByClassName", "arg": "vjs-big-play-button"},
+			{"name": "clickFirstElementByClassName", "arg": "vjs-big-play-button"},
+			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
+		]
+	}
+}
