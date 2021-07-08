@@ -3,16 +3,36 @@
 		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
 	},
 	"vivo.st": "vivo.sx",
+
 	"streamtape.com": {
 		"/e/*": [
 			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
 			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
 			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
+		],
+		"/v/*": [
+			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
+			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
+			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
+		],
+		"/v/*/*": [
+			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
+			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
+			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
 		]
 	},
+	"streamta.pe": "streamtape.com",
+	"streamtape.site": "streamtape.com",
+	"strtape.tech": "streamtape.com",
+	"strtape.cloud": "streamtape.com",
+	"strtape.site": "streamtape.com",
+	"strcloud.in": "streamtape.com",
+	"strcloud.link": "streamtape.com",
+
 	"vidoza.net": {
 		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
 	},
+
 	"mixdrop.co": {
 		"/*/*": [
 			{"name": "clickFirstElementByClassName", "arg": "vjs-big-play-button"},
