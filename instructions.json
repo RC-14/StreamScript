@@ -5,17 +5,12 @@
 	"vivo.st": "vivo.sx",
 
 	"streamtape.com": {
-		"/e/*": [
+		"/*/*": [
 			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
 			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
 			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
 		],
-		"/v/*": [
-			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
-			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
-			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
-		],
-		"/v/*/*": [
+		"/*/*/*": [
 			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
 			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
 			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
