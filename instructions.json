@@ -1,5 +1,4 @@
 {
-	"TODO": ["validate vidoza path", "validate mixdrop path", "add missing paths (all)"],
 	"vivo.sx": {
 		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
 	},
