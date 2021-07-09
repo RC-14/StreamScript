@@ -1,6 +1,7 @@
 {
 	"vivo.sx": {
-		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
+		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}],
+		"/embed/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
 	},
 	"vivo.st": "vivo.sx",
 
