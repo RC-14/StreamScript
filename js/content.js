@@ -1,6 +1,3 @@
-// if the browser is based on Chromium "browser" will be undefined
-const isChromeBased = !Boolean(browser);
-
 function checkIfUrlAvailabe(url) {
 	var promise = new Promise((resolve, reject) => {
 		var request = new XMLHttpRequest();
@@ -142,11 +139,12 @@ actions.addVideoControls = () => {
 			'"F" = Fullscreen on/off',
 			'"S" = skip opening (87 seconds)',
 			'"J" = rewind 10 Seconds',
-			'"Space"/"K" = pause/play',
+			'"K" = pause/play',
 			'"L" = skip 10 seconds',
 			'"O" = increase volume',
 			'"I" = decrease volume',
 			'"M" = mute/unmute',
+			"\nand default controls (space and arrow keys)",
 		].join("\n");
 
 	video.pause();
@@ -222,13 +220,6 @@ actions.addVideoControls = () => {
 
 			case "KeyK":
 				pauseOrPlayFunction();
-				break;
-
-			case "Space":
-				// firefox has this by default
-				if (isChromeBased) {
-					pauseOrPlayFunction();
-				}
 				break;
 
 			case "KeyL":
