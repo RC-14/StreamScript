@@ -15,11 +15,19 @@ class UpdateChecker {
 			// get HTML of the GitHub page of the latest release
 			request.open("GET", this.url);
 			request.onreadystatechange = () => {
-				if (request.readyState === XMLHttpRequest.DONE) {
-					// get latest version from title
-					this.latestVersionString = request.responseText.split(/<\/?title>/g)[1].match(/v\d(\.\d+){2}/g)[0];
-					// check if the installed version is also the latest version on github (ignore check if this is a devBuild)
-					resolve(this.latestVersionString);
+				let status = request.status;
+				if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
+					if (!(status >= 200 && status < 400)) {
+						request.abort();
+						reject();
+					}
+				} else if (request.readyState === XMLHttpRequest.DONE) {
+					if (status >= 200 && status < 400) {
+						// get latest version from title
+						this.latestVersionString = request.responseText.split(/<\/?title>/g)[1].match(/v\d(\.\d+){2}/g)[0];
+						// check if the installed version is also the latest version on github (ignore check if this is a devBuild)
+						resolve(this.latestVersionString);
+					}
 				}
 			};
 			request.send();
@@ -159,10 +167,10 @@ class InstructionsManager {
 		let instructions = null;
 
 		let domainKey = getKeyWithGenerator(this.instructions, host, this.generateAllWildcardDomains);
-		if (!domainKey) return instructions;
+		if (domainKey !== null) return instructions;
 
 		let pathKey = getKeyWithGenerator(this.instructions[domainKey], path, this.generateAllWildcardPaths);
-		if (!pathKey) return instructions;
+		if (pathKey !== null) return instructions;
 
 		instructions = this.instructions[domainKey][pathKey];
 
