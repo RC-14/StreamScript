@@ -132,7 +132,7 @@ class InstructionsManager {
 			let result = null;
 			if (obj[input]) {
 				result = input;
-			} else {
+			} else if (input !== "") {
 				var generatedKeys = generator(input);
 				for (let i = 0; i < generatedKeys.length; i++) {
 					if (obj[generatedKeys[i]]) {
@@ -140,6 +140,8 @@ class InstructionsManager {
 						break;
 					}
 				}
+			} else {
+				return null;
 			}
 
 			while (typeof obj[result] === "string") {
@@ -162,15 +164,15 @@ class InstructionsManager {
 			.split("#")[0]
 			.split("?")[0]
 			.replace(/\/$/g, "");
-		const path = tmp.startsWith("/") ? tmp : "";
+		const path = tmp.match(/^\/.+/g) ? tmp : "";
 
 		let instructions = null;
 
 		let domainKey = getKeyWithGenerator(this.instructions, host, this.generateAllWildcardDomains);
-		if (domainKey !== null) return instructions;
+		if (domainKey === null) return instructions;
 
 		let pathKey = getKeyWithGenerator(this.instructions[domainKey], path, this.generateAllWildcardPaths);
-		if (pathKey !== null) return instructions;
+		if (pathKey === null) return instructions;
 
 		instructions = this.instructions[domainKey][pathKey];
 
