@@ -27,46 +27,15 @@ actions.showNewVersionAlert = (newVersion) => {
 	alert("StreamScript\n\nNew version available: " + newVersion + "\nhttps://github.com/RC-14/StreamScript/releases/latest");
 };
 
-actions.clickElementById = (id) => {
-	document.getElementById(id).click();
+actions.clickFirstElementByQuerySelector = (selector) => {
+	document.querySelector(selector).click();
 };
-actions.clickFirstElementByClassName = (className) => {
-	document.getElementsByClassName(className)[0].click();
-};
-actions.clickFirstElementByName = (name) => {
-	document.getElementsByName(name)[0].click();
-};
-actions.clickFirstElementByTagName = (tagName) => {
-	document.getElementsByTagName(tagName)[0].click();
-};
-
-actions.clickLastElementByClassName = (className) => {
-	let elements = document.getElementsByClassName(className);
+actions.clickLastElementByQuerySelector = (selector) => {
+	let elements = document.querySelectorAll(selector);
 	elements[elements.length - 1].click();
 };
-actions.clickLastElementByName = (name) => {
-	let elements = document.getElementsByName(name);
-	elements[elements.length - 1].click();
-};
-actions.clickLastElementByTagName = (tagName) => {
-	let elements = document.getElementsByTagName(tagName);
-	elements[elements.length - 1].click();
-};
-
-actions.clickAllElementsByClassName = (className) => {
-	let elements = document.getElementsByClassName(className);
-	for (let i = 0; i < elements.length; i++) {
-		elements[i].click();
-	}
-};
-actions.clickAllElementsByName = (name) => {
-	let elements = document.getElementsByName(name);
-	for (let i = 0; i < elements.length; i++) {
-		elements[i].click();
-	}
-};
-actions.clickAllElementsByTagName = (tagName) => {
-	let elements = document.getElementsByTagName(tagName);
+actions.clickAllElementsByQuerySelector = (selector) => {
+	let elements = document.querySelectorAll(selector);
 	for (let i = 0; i < elements.length; i++) {
 		elements[i].click();
 	}
