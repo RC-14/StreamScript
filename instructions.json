@@ -7,13 +7,13 @@
 
 	"streamtape.com": {
 		"/*/*": [
-			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
-			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
+			{"name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay"},
+			{"name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay"},
 			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
 		],
 		"/*/*/*": [
-			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
-			{"name": "clickFirstElementByClassName", "arg": "plyr-overlay"},
+			{"name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay"},
+			{"name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay"},
 			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
 		]
 	},
@@ -31,8 +31,8 @@
 
 	"mixdrop.co": {
 		"/*/*": [
-			{"name": "clickFirstElementByClassName", "arg": "vjs-big-play-button"},
-			{"name": "clickFirstElementByClassName", "arg": "vjs-big-play-button"},
+			{"name": "clickFirstElementByQuerySelector", "arg": ".vjs-big-play-button"},
+			{"name": "clickFirstElementByQuerySelector", "arg": ".vjs-big-play-button"},
 			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
 		]
 	}
