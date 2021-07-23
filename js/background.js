@@ -231,12 +231,64 @@ class InstructionsManager {
 }
 
 class VideoManager {
-	constructor() {}
+	constructor(maxCachedTimeAge, intervalTimeout) {
+		this.maxCachedTimeAge = maxCachedTimeAge;
+		this.intervalTimeout = intervalTimeout;
+
+		this.addInterval();
+	}
+	ulrsForSrcs = {}; // src: url
+	timeCache = {}; // url: {time, timestamp}
+	maxCachedTimeAge;
+	intervalTimeout;
+	intervalIDs = [];
+
+	setSrcForUrl(url, src) {
+		this.srcsForUrls[url] = src;
+		this.ulrsForSrcs[src] = url;
+	}
+
+	setLastTime(src, time) {
+		let url = this.ulrsForSrcs[src];
+		if (url === undefined) url = src;
+
+		this.timeCache[url] = {time, timestamp: Date.now()};
+	}
+
+	getLastTime(src) {
+		let url = this.ulrsForSrcs[src];
+		if (url === undefined) url = src;
+
+		let time = null;
+		if (this.timeCache[url] !== undefined) time = this.timeCache[url].time;
+
+		return time;
+	}
+
+	checkCachedTimesAge() {
+		let urls = Object.keys(this.timeCache);
+
+		for (let i = 0; i < urls.length; i++) {
+			if (Date.now() - this.maxCachedTimeAge > this.timeCache[urls[i]].timestamp) {
+				this.timeCache[urls[i]] = undefined;
+			}
+		}
+	}
+
+	addInterval(intervalTimeout = this.intervalTimeout) {
+		this.intervalTimeout = intervalTimeout;
+		this.intervalIDs[this.intervalIDs.length] = setInterval(this.checkCachedTimesAge, intervalTimeout);
+		return this.intervalIDs[this.intervalIDs.length - 1];
+	}
+
+	clearInterval(index = 0) {
+		clearInterval(this.intervalIDs.splice(index, 1)[0]);
+	}
 }
 
 const updateChecker = new UpdateChecker("https://github.com/RC-14/StreamScript/releases/latest");
 const instructionsManager = new InstructionsManager("https://raw.githubusercontent.com/RC-14/StreamScript/main/instructions.json", 600000);
-const videoManager = new VideoManager();
+const videoManager = new VideoManager(18000000, 30000); // 5h, 30s
 
 const messages = {};
 messages.getInstrutions = "getInstructions";
@@ -245,22 +297,30 @@ messages.setLastTime = "setLastTime";
 messages.getLastTime = "getLastTime";
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	switch (request.msg) {
+	let msg = request.msg;
+	let data = request.data;
+
+	switch (msg) {
 		case null:
 			sendResponse(messages);
 			break;
 
 		case messages.GETINSTRUCTIONS:
-			sendResponse(instructionsManager.getInstrutionsForURL(request.data));
+			sendResponse(instructionsManager.getInstrutionsForURL(data));
 			break;
 
 		case messages.REDIRECTTOVIDEOSRC:
+			videoManager.setSrcForUrl(data.url, data.src);
+			sendResponse();
 			break;
 
 		case messages.SETLASTTIME:
+			videoManager.setLastTime(data.url, data.time);
+			sendResponse();
 			break;
 
 		case messages.GETLASTTIME:
+			sendResponse(videoManager.getLastTime(data));
 			break;
 	}
 });

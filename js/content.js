@@ -45,7 +45,7 @@ actions.redirect = (url) => {
 	open(url, "_self", "noopener, noreferrer");
 };
 actions.redirectToVideoSrc = (url) => {
-	chrome.runtime.sendMessage({msg: messages.REDIRECTTOVIDEOSRC, data: {from: location.href, to: url}}, () => {
+	chrome.runtime.sendMessage({msg: messages.REDIRECTTOVIDEOSRC, data: {url: location.href, src: url}}, () => {
 		actions.redirect(url);
 	});
 };
@@ -122,7 +122,9 @@ actions.addVideoControls = () => {
 	chrome.runtime.sendMessage({msg: messages.GETLASTTIME, data: location.href}, (response) => {
 		video.currentTime = typeof response === "number" ? response : 0;
 	});
-	chrome.runtime.sendMessage({msg: messages.SETLASTTIME, data: {url: location.href, time: video.currentTime}}, (response) => {});
+	setInterval(() => {
+		chrome.runtime.sendMessage({msg: messages.SETLASTTIME, data: {url: location.href, time: video.currentTime}}, (response) => {});
+	}, 500);
 
 	// adding all the functions
 	function fullscreenFunction() {
