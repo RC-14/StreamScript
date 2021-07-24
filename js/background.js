@@ -2,7 +2,7 @@ class UpdateChecker {
 	constructor(url, intervalTimeout = 300000) {
 		this.url = url;
 		this.currentVersion = chrome.runtime.getManifest().version;
-		this.latestVersionString;
+		this.latestVersion;
 		this.getLatestVersion();
 
 		this.intervalTimeout = intervalTimeout;
@@ -24,9 +24,9 @@ class UpdateChecker {
 				} else if (request.readyState === XMLHttpRequest.DONE) {
 					if (status >= 200 && status < 400) {
 						// get latest version from title
-						this.latestVersionString = request.responseText.split(/<\/?title>/g)[1].match(/v\d(\.\d+){2}/g)[0];
+						this.latestVersion = request.responseText.split(/<\/?title>/g)[1].match(/v\d(\.\d+){2}/g)[0];
 						// check if the installed version is also the latest version on github (ignore check if this is a devBuild)
-						resolve(this.latestVersionString);
+						resolve(this.latestVersion);
 					}
 				}
 			};
@@ -34,6 +34,17 @@ class UpdateChecker {
 		});
 
 		return promise;
+	}
+
+	get isNewVersionAvailable() {
+		for (let i = 0; i < this.currentVersion.split(".").length; i++) {
+			if (!(isNaN(Number(this.currentVersion.split(".")[i])) || isNaN(Number(this.latestVersion.split(".")[i])))) {
+				if (Number(this.currentVersion.split(".")[i]) < Number(this.latestVersion.split(".")[i])) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	addInterval(intervalTimeout = this.intervalTimeout) {
@@ -176,6 +187,12 @@ class InstructionsManager {
 
 		instructions = this.instructions[domainKey][pathKey];
 
+		if (updateChecker.isNewVersionAvailable) {
+			instructions.reverse();
+			instructions[instructions.length] = {name: "showNewVersionAlert", arg: updateChecker.latestVersion};
+			instructions.reverse();
+		}
+
 		return instructions;
 	}
 
@@ -235,16 +252,14 @@ class VideoManager {
 		this.maxCachedTimeAge = maxCachedTimeAge;
 		this.intervalTimeout = intervalTimeout;
 
+		this.ulrsForSrcs = {}; // src: url
+		this.timeCache = {}; // url: {time, timestamp}
+		this.intervalIDs = [];
+
 		this.addInterval();
 	}
-	ulrsForSrcs = {}; // src: url
-	timeCache = {}; // url: {time, timestamp}
-	maxCachedTimeAge;
-	intervalTimeout;
-	intervalIDs = [];
 
-	setSrcForUrl(url, src) {
-		this.srcsForUrls[url] = src;
+	setUrlForSrc(url, src) {
 		this.ulrsForSrcs[src] = url;
 	}
 
@@ -265,19 +280,20 @@ class VideoManager {
 		return time;
 	}
 
-	checkCachedTimesAge() {
-		let urls = Object.keys(this.timeCache);
-
-		for (let i = 0; i < urls.length; i++) {
-			if (Date.now() - this.maxCachedTimeAge > this.timeCache[urls[i]].timestamp) {
-				this.timeCache[urls[i]] = undefined;
-			}
-		}
-	}
-
 	addInterval(intervalTimeout = this.intervalTimeout) {
 		this.intervalTimeout = intervalTimeout;
-		this.intervalIDs[this.intervalIDs.length] = setInterval(this.checkCachedTimesAge, intervalTimeout);
+
+		let videoManager = this;
+		this.intervalIDs[this.intervalIDs.length] = setInterval(() => {
+			let urls = Object.keys(videoManager.timeCache);
+
+			for (let i = 0; i < urls.length; i++) {
+				if (Date.now() - videoManager.maxCachedTimeAge > videoManager.timeCache[urls[i]].timestamp) {
+					videoManager.timeCache[urls[i]] = undefined;
+				}
+			}
+		}, intervalTimeout);
+
 		return this.intervalIDs[this.intervalIDs.length - 1];
 	}
 
@@ -299,28 +315,30 @@ messages.getLastTime = "getLastTime";
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	let msg = request.msg;
 	let data = request.data;
+	var response;
 
 	switch (msg) {
 		case null:
-			sendResponse(messages);
+			response = messages;
 			break;
 
-		case messages.GETINSTRUCTIONS:
-			sendResponse(instructionsManager.getInstrutionsForURL(data));
+		case messages.getInstrutions:
+			response = instructionsManager.getInstrutionsForURL(data);
 			break;
 
-		case messages.REDIRECTTOVIDEOSRC:
-			videoManager.setSrcForUrl(data.url, data.src);
-			sendResponse();
+		case messages.redirectToVideoSrc:
+			console.log(data);
+			videoManager.setUrlForSrc(data.url, data.src);
 			break;
 
-		case messages.SETLASTTIME:
+		case messages.setLastTime:
 			videoManager.setLastTime(data.url, data.time);
-			sendResponse();
 			break;
 
-		case messages.GETLASTTIME:
-			sendResponse(videoManager.getLastTime(data));
+		case messages.getLastTime:
+			response = videoManager.getLastTime(data);
 			break;
 	}
+
+	sendResponse(response);
 });

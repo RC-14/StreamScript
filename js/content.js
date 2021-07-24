@@ -45,7 +45,8 @@ actions.redirect = (url) => {
 	open(url, "_self", "noopener, noreferrer");
 };
 actions.redirectToVideoSrc = (url) => {
-	chrome.runtime.sendMessage({msg: messages.REDIRECTTOVIDEOSRC, data: {url: location.href, src: url}}, () => {
+	console.log(messages);
+	chrome.runtime.sendMessage({msg: messages.redirectToVideoSrc, data: {url: location.href, src: url}}, () => {
 		actions.redirect(url);
 	});
 };
@@ -119,11 +120,11 @@ actions.addVideoControls = () => {
 	video.pause();
 	video.currentTime = 0;
 
-	chrome.runtime.sendMessage({msg: messages.GETLASTTIME, data: location.href}, (response) => {
+	chrome.runtime.sendMessage({msg: messages.getLastTime, data: location.href}, (response) => {
 		video.currentTime = typeof response === "number" ? response : 0;
 	});
 	setInterval(() => {
-		chrome.runtime.sendMessage({msg: messages.SETLASTTIME, data: {url: location.href, time: video.currentTime}}, (response) => {});
+		chrome.runtime.sendMessage({msg: messages.setLastTime, data: {url: location.href, time: video.currentTime}}, (response) => {});
 	}, 500);
 
 	// adding all the functions
@@ -251,7 +252,7 @@ chrome.runtime.sendMessage({msg: null}, (msgs) => {
 	if (document.contentType.startsWith("video/")) {
 		actions.addVideoControls();
 	} else {
-		chrome.runtime.sendMessage({msg: messages.GETINSTRUCTIONS, data: location.href}, (response) => {
+		chrome.runtime.sendMessage({msg: messages.getInstrutions, data: location.href}, (response) => {
 			if (document.visibilityState === "visible") {
 				executeInstructions(response);
 				return;
