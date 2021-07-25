@@ -37,6 +37,8 @@ class UpdateChecker {
 	}
 
 	get isNewVersionAvailable() {
+		if (typeof this.latestVersion !== "string") return false;
+
 		for (let i = 0; i < this.currentVersion.split(".").length; i++) {
 			if (!(isNaN(Number(this.currentVersion.split(".")[i])) || isNaN(Number(this.latestVersion.split(".")[i])))) {
 				if (Number(this.currentVersion.split(".")[i]) < Number(this.latestVersion.split(".")[i])) {
@@ -44,6 +46,7 @@ class UpdateChecker {
 				}
 			}
 		}
+
 		return false;
 	}
 
