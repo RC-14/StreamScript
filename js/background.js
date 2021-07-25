@@ -327,7 +327,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			break;
 
 		case messages.redirectToVideoSrc:
-			console.log(data);
 			videoManager.setUrlForSrc(data.url, data.src);
 			break;
 
