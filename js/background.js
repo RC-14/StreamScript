@@ -95,10 +95,7 @@ class InstructionsManager {
 	generateAllWildcardPaths(path) {
 		if (typeof path !== "string") {
 			throw new Error("InstructionsManager.generateAllWildcardPaths: type of path is not string");
-		} /* else if (!path.match(/^(\/[a–z0–9\-\._~!\$&'\(\)\*\+,;=:@%]+)+\/?$/gi)) {
-			// doesn't work - chars allowed in path (except /): a-z A-Z 0-9 - . _ ~ ! $ & ' ( ) * + , ; = : @ %
-			throw new Error("InstructionsManager.generateAllWildcardPaths: path contains forbidden characters");
-		}*/
+		}
 
 		path = path.replace(/\/$/g, "");
 
