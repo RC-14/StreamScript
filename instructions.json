@@ -35,5 +35,10 @@
 			{"name": "clickFirstElementByQuerySelector", "arg": ".vjs-big-play-button"},
 			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
 		]
+	},
+
+	"evoload.io": {
+		"/v/*": [{"name": "basicRedirectToVideoSrc", "arg": null}],
+		"/e/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
 	}
 }
