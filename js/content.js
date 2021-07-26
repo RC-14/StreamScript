@@ -2,6 +2,8 @@ function checkIfUrlAvailabe(url) {
 	var promise = new Promise((resolve, reject) => {
 		var request = new XMLHttpRequest();
 		request.open("GET", url);
+		request.setRequestHeader("pragma", "no-cache");
+		request.setRequestHeader("cache-control", "no-cache");
 		request.onreadystatechange = () => {
 			if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
 				var status = request.status;

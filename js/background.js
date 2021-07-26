@@ -14,6 +14,8 @@ class UpdateChecker {
 			var request = new XMLHttpRequest();
 			// get HTML of the GitHub page of the latest release
 			request.open("GET", this.url);
+			request.setRequestHeader("pragma", "no-cache");
+			request.setRequestHeader("cache-control", "no-cache");
 			request.onreadystatechange = () => {
 				let status = request.status;
 				if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
@@ -216,6 +218,8 @@ class InstructionsManager {
 		var promise = new Promise((resolve, reject) => {
 			var request = new XMLHttpRequest();
 			request.open("GET", this.url);
+			request.setRequestHeader("pragma", "no-cache");
+			request.setRequestHeader("cache-control", "no-cache");
 			request.onreadystatechange = () => {
 				let status = request.status;
 				if (request.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
