@@ -38,7 +38,7 @@
 	},
 
 	"evoload.io": {
-		"/v/*": [{"name": "basicRedirectToVideoSrc", "arg": null}],
-		"/e/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
+		"/v/*": [{"name": "basicRedirectToVideoSrcWithDelay", "arg": 3500}],
+		"/e/*": [{"name": "basicRedirectToVideoSrcWithDelay", "arg": 3500}]
 	}
 }
