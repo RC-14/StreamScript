@@ -291,11 +291,15 @@ class VideoManager {
 		this.intervalIDs[this.intervalIDs.length] = setInterval(() => {
 			let urls = Object.keys(videoManager.timeCache);
 
+			let newTimeCache = {};
+
 			for (let i = 0; i < urls.length; i++) {
-				if (Date.now() - videoManager.maxCachedTimeAge > videoManager.timeCache[urls[i]].timestamp) {
-					videoManager.timeCache[urls[i]] = undefined;
+				if (Date.now() - videoManager.maxCachedTimeAge < videoManager.timeCache[urls[i]].timestamp) {
+					newTimeCache[urls[i]] = videoManager.timeCache[urls[i]];
 				}
 			}
+
+			videoManager.timeCache = newTimeCache;
 		}, intervalTimeout);
 
 		return this.intervalIDs[this.intervalIDs.length - 1];
