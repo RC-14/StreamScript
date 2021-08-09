@@ -312,7 +312,7 @@ class VideoManager {
 
 const updateChecker = new UpdateChecker("https://github.com/RC-14/StreamScript/releases/latest");
 const instructionsManager = new InstructionsManager("https://raw.githubusercontent.com/RC-14/StreamScript/main/instructions.json", 600000);
-const videoManager = new VideoManager(18000000, 600000); // 5h, 1min
+const videoManager = new VideoManager(43200000, 600000); // 12h, 1min
 
 const messages = {};
 messages.getInstrutions = "getInstructions";
