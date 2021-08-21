@@ -25,6 +25,7 @@
 	"strcloud.in": "streamtape.com",
 	"strcloud.link": "streamtape.com",
 	"strtapeadblock.me": "streamtape.com",
+	"strtapeadblock.club": "streamtape.com",
 
 	"vidoza.net": {
 		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
