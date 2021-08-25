@@ -1,16 +1,23 @@
 class UpdateChecker {
 	constructor(url, intervalTimeout = 300000) {
-		this.url = url;
+		if (typeof url !== "string") {
+			throw new Error("UpdateChecker.constructor: type of arg 1 is not string");
+		} else if (typeof intervalTimeout !== "number") {
+			throw new Error("UpdateChecker.constructor: type of arg 2 is not number");
+		}
+		this.url = url; // the URL to the latest github release
 		this.currentVersion = chrome.runtime.getManifest().version;
 		this.latestVersion;
 		this.getLatestVersion();
 
 		this.intervalTimeout = intervalTimeout;
 		this.intervalIDs = [];
+
+		this.addInterval();
 	}
 
 	getLatestVersion() {
-		var promise = new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			var request = new XMLHttpRequest();
 			// get HTML of the GitHub page of the latest release
 			request.open("GET", this.url);
@@ -34,14 +41,13 @@ class UpdateChecker {
 			};
 			request.send();
 		});
-
-		return promise;
 	}
 
 	get isNewVersionAvailable() {
 		if (typeof this.latestVersion !== "string") return false;
 
 		for (let i = 0; i < this.currentVersion.split(".").length; i++) {
+			// check if the . sepertated values are valid numbers
 			if (!(isNaN(Number(this.currentVersion.split(".")[i])) || isNaN(Number(this.latestVersion.split(".")[i])))) {
 				if (Number(this.currentVersion.split(".")[i]) < Number(this.latestVersion.split(".")[i])) {
 					return true;
@@ -53,34 +59,46 @@ class UpdateChecker {
 	}
 
 	addInterval(intervalTimeout = this.intervalTimeout) {
-		this.currentVersion = chrome.runtime.getManifest().version;
+		if (typeof intervalTimeout !== "number") {
+			throw new Error("UpdateChecker.addInterval: type of arg 1 is not number");
+		}
 		this.intervalTimeout = intervalTimeout;
 		this.intervalIDs[this.intervalIDs.length] = setInterval(this.getLatestVersion, intervalTimeout);
 		return this.intervalIDs[this.intervalIDs.length - 1];
 	}
 
 	clearInterval(index = 0) {
+		if (typeof index !== "number") {
+			throw new Error("UpdateChecker.clearInterval: type of arg 1 is not number");
+		}
 		clearInterval(this.intervalIDs.splice(index, 1)[0]);
 	}
 }
 
 class InstructionsManager {
 	constructor(url, intervalTimeout) {
+		if (typeof url !== "string") {
+			throw new Error("InstructionsManager.constructor: type of arg 1 is not string");
+		} else if (typeof intervalTimeout !== "number") {
+			throw new Error("InstructionsManager.constructor: type of arg 2 is not number");
+		}
 		this.url = url;
 		this.localURL = chrome.runtime.getURL("instructions.json");
-		this.instructions = undefined;
+		this.instructions;
 		this.useOfflineInstructions();
 		this.getLatestInstructions();
 
 		this.intervalTimeout = intervalTimeout;
 		this.intervalIDs = [];
+
+		this.addInterval();
 	}
 
 	generateAllWildcardDomains(domain) {
 		if (typeof domain !== "string") {
-			throw new Error("InstructionsManager.generateAllWildcardDomains: type of domain is not string");
+			throw new Error("InstructionsManager.generateAllWildcardDomains: type of arg 1 is not string");
 		} else if (!domain.match(/^([a-z0-9\-]+\.)*[a-z0-9]+$/gi)) {
-			throw new Error("InstructionsManager.generateAllWildcardDomains: domain is not a valid domain");
+			throw new Error("InstructionsManager.generateAllWildcardDomains: arg 1 is not a valid domain");
 		}
 		let result = [];
 		for (let i = 1; i < domain.split(".").length; i++) {
@@ -96,7 +114,7 @@ class InstructionsManager {
 
 	generateAllWildcardPaths(path) {
 		if (typeof path !== "string") {
-			throw new Error("InstructionsManager.generateAllWildcardPaths: type of path is not string");
+			throw new Error("InstructionsManager.generateAllWildcardPaths: type of arg 1 is not string");
 		}
 
 		path = path.replace(/\/$/g, "");
@@ -135,12 +153,15 @@ class InstructionsManager {
 		if (typeof instructions === "string") {
 			instructions = JSON.parse(instructions);
 		} else if (typeof instructions !== "object") {
-			throw new Error("InstructionsManager.setInstructions: type of instructions is not string or object");
+			throw new Error("InstructionsManager.setInstructions: type of arg 1 is not string or object");
 		}
 		this.instructions = instructions;
 	}
 
-	getInstrutionsForURL(url) {
+	getInstructionsForURL(url) {
+		if (typeof url !== "string") {
+			throw new Error("InstructionsManager.getInstructionsForURL: type of arg 1 is not string");
+		}
 		function getKeyWithGenerator(obj, input, generator) {
 			let result = null;
 			if (obj[input]) {
@@ -199,7 +220,7 @@ class InstructionsManager {
 	}
 
 	useOfflineInstructions() {
-		var promise = new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			var request = new XMLHttpRequest();
 			request.open("GET", this.localURL);
 			request.onreadystatechange = () => {
@@ -210,12 +231,10 @@ class InstructionsManager {
 			};
 			request.send();
 		});
-
-		return promise;
 	}
 
 	getLatestInstructions() {
-		var promise = new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			var request = new XMLHttpRequest();
 			request.open("GET", this.url);
 			request.setRequestHeader("pragma", "no-cache");
@@ -236,38 +255,57 @@ class InstructionsManager {
 			};
 			request.send();
 		});
-
-		return promise;
 	}
 
 	addInterval(intervalTimeout = this.intervalTimeout) {
+		if (typeof intervalTimeout !== "number") {
+			throw new Error("InstructionsManager.addInterval: type of arg 1 is not number");
+		}
 		this.intervalTimeout = intervalTimeout;
 		this.intervalIDs[this.intervalIDs.length] = setInterval(this.getLatestInstructions, intervalTimeout);
 		return this.intervalIDs[this.intervalIDs.length - 1];
 	}
 
 	clearInterval(index = 0) {
+		if (typeof index !== "number") {
+			throw new Error("InstructionsManager.clearInterval: type of arg 1 is not number");
+		}
 		clearInterval(this.intervalIDs.splice(index, 1)[0]);
 	}
 }
 
 class VideoManager {
 	constructor(maxCachedTimeAge, intervalTimeout) {
+		if (typeof maxCachedTimeAge !== "number") {
+			throw new Error("VideoManager.constructor: type of arg 1 is not number");
+		} else if (typeof intervalTimeout !== "number") {
+			throw new Error("VideoManager.constructor: type of arg 2 is not number");
+		}
 		this.maxCachedTimeAge = maxCachedTimeAge;
 		this.intervalTimeout = intervalTimeout;
 
-		this.ulrsForSrcs = {}; // src: url
-		this.timeCache = {}; // url: {time, timestamp}
+		this.ulrsForSrcs = {}; // { src: url, ... }
+		this.timeCache = {}; // { url: {time, timestamp}, ... }
 		this.intervalIDs = [];
 
 		this.addInterval();
 	}
 
 	setUrlForSrc(url, src) {
+		if (typeof url !== "string") {
+			throw new Error("VideoManager.setUrlForSrc: type of arg 1 is not string");
+		} else if (typeof src !== "string") {
+			throw new Error("VideoManager.setUrlForSrc: type of arg 2 is not string");
+		}
 		this.ulrsForSrcs[src] = url;
 	}
 
 	setLastTime(src, time) {
+		if (typeof src !== "string") {
+			throw new Error("VideoManager.setLastTime: type of arg 1 is not string");
+		} else if (typeof time !== "number") {
+			throw new Error("VideoManager.setLastTime: type of arg 2 is not number");
+		}
 		let url = this.ulrsForSrcs[src];
 		if (url === undefined) url = src;
 
@@ -275,6 +313,9 @@ class VideoManager {
 	}
 
 	getLastTime(src) {
+		if (typeof src !== "string") {
+			throw new Error("VideoManager.getLastTime: type of arg 1 is not string");
+		}
 		let url = this.ulrsForSrcs[src];
 		if (url === undefined) url = src;
 
@@ -285,6 +326,9 @@ class VideoManager {
 	}
 
 	addInterval(intervalTimeout = this.intervalTimeout) {
+		if (typeof intervalTimeout !== "number") {
+			throw new Error("VideoManager.addInterval: type of arg 1 is not number");
+		}
 		this.intervalTimeout = intervalTimeout;
 
 		let videoManager = this;
@@ -306,6 +350,9 @@ class VideoManager {
 	}
 
 	clearInterval(index = 0) {
+		if (typeof index !== "number") {
+			throw new Error("VideoManager.clearInterval: type of arg 1 is not number");
+		}
 		clearInterval(this.intervalIDs.splice(index, 1)[0]);
 	}
 }
@@ -331,7 +378,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			break;
 
 		case messages.getInstrutions:
-			response = instructionsManager.getInstrutionsForURL(data);
+			response = instructionsManager.getInstructionsForURL(data);
 			break;
 
 		case messages.redirectToVideoSrc:
