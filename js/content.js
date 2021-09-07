@@ -1,5 +1,8 @@
 function checkIfUrlAvailabe(url) {
-	var promise = new Promise((resolve, reject) => {
+	if (typeof url !== "string") {
+		throw new Error("checkIfUrlAvailable: type of arg 1 is not string");
+	}
+	return new Promise((resolve, reject) => {
 		var request = new XMLHttpRequest();
 		request.open("GET", url);
 		request.setRequestHeader("pragma", "no-cache");
@@ -20,23 +23,34 @@ function checkIfUrlAvailabe(url) {
 		};
 		request.send();
 	});
-	return promise;
 }
 
 // all actions that can be used in instructions
 const actions = {};
 actions.showNewVersionAlert = (newVersion) => {
+	if (typeof newVersion !== "string") {
+		throw new Error("actions.showNewVersionAlert: type of arg 1 is not string");
+	}
 	alert("StreamScript\n\nNew version available: " + newVersion + "\nhttps://github.com/RC-14/StreamScript/releases/latest");
 };
 
 actions.clickFirstElementByQuerySelector = (selector) => {
+	if (typeof selector !== "string") {
+		throw new Error("actions.clickFirstElementByQuerySelector: type of arg 1 is not string");
+	}
 	document.querySelector(selector).click();
 };
 actions.clickLastElementByQuerySelector = (selector) => {
+	if (typeof selector !== "string") {
+		throw new Error("actions.clickLastElementByQuerySelector: type of arg 1 is not string");
+	}
 	let elements = document.querySelectorAll(selector);
 	elements[elements.length - 1].click();
 };
 actions.clickAllElementsByQuerySelector = (selector) => {
+	if (typeof selector !== "string") {
+		throw new Error("actions.clickAllElementsByQuerySelector: type of arg 1 is not string");
+	}
 	let elements = document.querySelectorAll(selector);
 	for (let i = 0; i < elements.length; i++) {
 		elements[i].click();
@@ -44,9 +58,15 @@ actions.clickAllElementsByQuerySelector = (selector) => {
 };
 
 actions.redirect = (url) => {
+	if (typeof url !== "string") {
+		throw new Error("actions.redirect: type of arg 1 is not string");
+	}
 	open(url, "_self", "noopener, noreferrer");
 };
 actions.redirectToVideoSrc = (url) => {
+	if (typeof url !== "string") {
+		throw new Error("actions.redirectToVideoSrc: type of arg 1 is not string");
+	}
 	console.log(messages);
 	chrome.runtime.sendMessage({msg: messages.redirectToVideoSrc, data: {url: location.href, src: url}}, () => {
 		actions.redirect(url);
@@ -54,6 +74,9 @@ actions.redirectToVideoSrc = (url) => {
 };
 
 actions.safeRedirect = (url) => {
+	if (typeof url !== "string") {
+		throw new Error("actions.safeRedirect: type of arg 1 is not string");
+	}
 	checkIfUrlAvailabe(url).then(
 		() => {
 			// if url is available redirect to it
@@ -65,6 +88,9 @@ actions.safeRedirect = (url) => {
 	);
 };
 actions.safeRedirectToVideoSrc = (url) => {
+	if (typeof url !== "string") {
+		throw new Error("actions.safeRedirectToVideoSrc: type of arg 1 is not string");
+	}
 	checkIfUrlAvailabe(url).then(
 		() => {
 			// if url is available redirect to it
@@ -96,6 +122,9 @@ actions.basicRedirectToVideoSrc = () => {
 };
 
 actions.basicRedirectToVideoSrcWithDelay = (ms) => {
+	if (typeof ms !== "number") {
+		throw new Error("actions.basicRedirectToVideoSrcWithDelay: type of arg 1 is not number");
+	}
 	setTimeout(actions.basicRedirectToVideoSrc, ms);
 };
 
@@ -236,7 +265,7 @@ actions.addVideoControls = () => {
 };
 
 function executeInstructions(instructions) {
-	if (instructions !== undefined && instructions !== null) {
+	if (typeof instructions === "object" && instructions !== null) {
 		for (let i = 0; i < instructions.length; i++) {
 			console.log('StreamScript: executing "' + instructions[i].name + '" with arg "' + instructions[i].arg + '"');
 			setTimeout(() => {
@@ -259,6 +288,7 @@ chrome.runtime.sendMessage({msg: null}, (msgs) => {
 				executeInstructions(response);
 				return;
 			}
+
 			let callback = () => {
 				executeInstructions(response);
 				document.removeEventListener("visibilitychange", callback);
