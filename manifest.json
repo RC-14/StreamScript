@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "StreamScript",
-	"version": "2.2.2",
+	"version": "2.2.3",
 	"author": "RC-14",
 	"description": "Redirects to the source video, adds extra controls to mp4 files and more QOL improvements.",
 	"icons": {
