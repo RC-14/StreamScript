@@ -20,7 +20,7 @@
 		{
 			"matches": ["<all_urls>", "file:///*", "file:///*?*"],
 			"all_frames": true,
-			"js": ["/js/content.js"],
+			"js": ["/js/content/actions.js", "/js/content/main.js"],
 			"run_at": "document_idle"
 		}
 	],

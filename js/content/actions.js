@@ -68,7 +68,7 @@ actions.redirectToVideoSrc = (url) => {
 		throw new Error("actions.redirectToVideoSrc: type of arg 1 is not string");
 	}
 	console.log(messages);
-	chrome.runtime.sendMessage({msg: messages.redirectToVideoSrc, data: {url: location.href, src: url}}, () => {
+	chrome.runtime.sendMessage({ msg: messages.redirectToVideoSrc, data: { url: location.href, src: url } }, () => {
 		actions.redirect(url);
 	});
 };
@@ -151,11 +151,14 @@ actions.addVideoControls = () => {
 	video.pause();
 	video.currentTime = 0;
 
-	chrome.runtime.sendMessage({msg: messages.getLastTime, data: location.href}, (response) => {
+	chrome.runtime.sendMessage({ msg: messages.getLastTime, data: location.href }, (response) => {
 		video.currentTime = typeof response === "number" ? response : 0;
 	});
 	setInterval(() => {
-		chrome.runtime.sendMessage({msg: messages.setLastTime, data: {url: location.href, time: video.currentTime}}, (response) => {});
+		chrome.runtime.sendMessage(
+			{ msg: messages.setLastTime, data: { url: location.href, time: video.currentTime } },
+			(response) => {}
+		);
 	}, 500);
 
 	// adding all the functions
@@ -263,37 +266,3 @@ actions.addVideoControls = () => {
 	};
 	document.body.append(helpButton);
 };
-
-function executeInstructions(instructions) {
-	if (typeof instructions === "object" && instructions !== null) {
-		for (let i = 0; i < instructions.length; i++) {
-			console.log('StreamScript: executing "' + instructions[i].name + '" with arg "' + instructions[i].arg + '"');
-			setTimeout(() => {
-				actions[instructions[i].name](instructions[i].arg);
-			});
-		}
-	}
-}
-
-let messages;
-
-chrome.runtime.sendMessage({msg: null}, (msgs) => {
-	messages = msgs;
-
-	if (document.contentType.startsWith("video/")) {
-		actions.addVideoControls();
-	} else {
-		chrome.runtime.sendMessage({msg: messages.getInstrutions, data: location.href}, (response) => {
-			if (document.visibilityState === "visible") {
-				executeInstructions(response);
-				return;
-			}
-
-			let callback = () => {
-				executeInstructions(response);
-				document.removeEventListener("visibilitychange", callback);
-			};
-			document.addEventListener("visibilitychange", callback);
-		});
-	}
-});
