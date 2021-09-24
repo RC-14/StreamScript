@@ -180,8 +180,7 @@ class InstructionsManager {
 	}
 
 	useLatestInstructions() {
-		this.getLatestInstructions();
-		this.addInterval();
+		this.getLatestInstructions().then(this.addInterval);
 	}
 
 	useOfflineInstructions() {
