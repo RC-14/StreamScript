@@ -13,7 +13,7 @@
 			"/js/background/UpdateChecker.js",
 			"/js/background/InstructionsManager.js",
 			"/js/background/VideoManager.js",
-			"/js/background/messageListening.js"
+			"/js/background/main.js"
 		]
 	},
 	"content_scripts": [
