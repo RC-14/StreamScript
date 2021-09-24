@@ -184,7 +184,7 @@ class InstructionsManager {
 	}
 
 	useOfflineInstructions() {
-		while (this.intervalIDs !== 0) {
+		while (this.intervalIDs.length > 0) {
 			this.clearInterval();
 		}
 		this.getOfflineInstructions();
