@@ -36,6 +36,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		case messages.getLastTime:
 			response = videoManager.getLastTime(data);
 			break;
+
 		default:
 			console.warn("Unnknown message: " + message);
 			break;
