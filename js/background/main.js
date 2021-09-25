@@ -1,10 +1,3 @@
-const updateChecker = new UpdateChecker("https://github.com/RC-14/StreamScript/releases/latest");
-const instructionsManager = new InstructionsManager(
-	"https://raw.githubusercontent.com/RC-14/StreamScript/main/instructions.json",
-	600000 // 10min
-);
-const videoManager = new VideoManager(43200000, 60000); // 12h, 1min
-
 const messages = {};
 messages.getInstrutions = "getInstructions";
 messages.redirectToVideoSrc = "redirectToVideoSrc";
