@@ -18,13 +18,17 @@
 
 * __Add a video player__
   * [x] Create the basic files (index.html, main.js, style.css)
-  * [ ] Load the source url from `location.search` into a video element
+  * [ ] Change how VideoManager works
+    * [ ] Make a second object (and function) for URLs and sources to find the latest source for a URL
+    * [ ] Ensure that there is only one source per URL (and vice versa) in the objects
+    * [ ] Add timestamps to the sources (maybe with a third object) and remove them when they're too old
+  * [ ] Load the video from `location.search` into the video element
+    * [ ] Load the url into an iframe
+    * [ ] If the MIME-Type is compatible with the video element set the video src to `location.href` of the iframe
+    * [ ] If it's not compatible show an error
+    * [ ] If it's a website try to get a video source from that website and show an error if that fails
   * [ ] Add all the features from `actions.addVideoControls`
   * [ ] Use the video player instead of redirecting to the source video
-    * [ ] Change how VideoManager works
-      * [ ] Make a second object (and function) for URLs and sources to find the latest source for a URL
-      * [ ] Ensure that there is only one source per URL (and vice versa) in the objects
-      * [ ] Add timestamps to the sources (maybe with a third object) and remove them when they're too old
     * [ ] Edit all redirect actions to redirect to the video player
   * [ ] Automatically get a new source when the old one isn't available anymore
   * [ ] Support m3u8 (and similar) files
