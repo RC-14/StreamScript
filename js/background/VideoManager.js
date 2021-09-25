@@ -9,6 +9,7 @@ class VideoManager {
 		this.intervalTimeout = intervalTimeout;
 
 		this.ulrsForSrcs = {}; // { src: url, ... }
+		this.srcsForURLs = {}; // { url: src, ... }
 		this.timeCache = {}; // { url: {time, timestamp}, ... }
 		this.intervalIDs = [];
 
@@ -22,6 +23,21 @@ class VideoManager {
 			throw new Error("VideoManager.setUrlForSrc: type of arg 2 is not string");
 		}
 		this.ulrsForSrcs[src] = url;
+		if (this.srcsForURLs[url]) {
+			this.srcsForURLs[url] = src;
+		}
+	}
+
+	setSrcForUrl(src, url) {
+		if (typeof url !== "string") {
+			throw new Error("VideoManager.setUrlForSrc: type of arg 1 is not string");
+		} else if (typeof src !== "string") {
+			throw new Error("VideoManager.setUrlForSrc: type of arg 2 is not string");
+		}
+		this.srcsForURLs[url] = src;
+		if (this.ulrsForSrcs[src]) {
+			this.ulrsForSrcs[src] = url;
+		}
 	}
 
 	setLastTime(src, time) {
