@@ -32,6 +32,21 @@ videoManager.setSrcForUrl = (src, url) => {
 	}
 };
 
+videoManager.removeUrlForSrc = (src) => {
+	if (typeof url !== "string") {
+		throw new Error("VideoManager.setUrlForSrc: type of arg 1 is not string");
+	}
+	videoManager.srcsForURLs[videoManager.ulrsForSrcs[src]] = undefined;
+	videoManager.ulrsForSrcs[src] = undefined;
+};
+videoManager.removeSrcForUrl = (url) => {
+	if (typeof url !== "string") {
+		throw new Error("VideoManager.setUrlForSrc: type of arg 1 is not string");
+	}
+	videoManager.ulrsForSrcs[videoManager.srcsForURLs[url]] = undefined;
+	videoManager.srcsForURLs[url] = undefined;
+};
+
 videoManager.setLastTime = (src, time) => {
 	if (typeof src !== "string") {
 		throw new Error("VideoManager.setLastTime: type of arg 1 is not string");
