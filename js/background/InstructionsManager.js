@@ -1,6 +1,6 @@
 const instructionsManager = {};
-instructionsManager.url = "https://raw.githubusercontent.com/RC-14/StreamScript/main/instructions.json";
-instructionsManager.localURL = chrome.runtime.getURL("instructions.json");
+instructionsManager.url = new URL("https://raw.githubusercontent.com/RC-14/StreamScript/main/instructions.json");
+instructionsManager.localURL = new URL(chrome.runtime.getURL("instructions.json"));
 instructionsManager.instructions;
 
 instructionsManager.intervalTimeout = 600000; // 10min
@@ -69,9 +69,22 @@ instructionsManager.setInstructions = (instructions) => {
 	instructionsManager.instructions = instructions;
 };
 instructionsManager.getInstructionsForURL = (url) => {
-	if (typeof url !== "string") {
-		throw new Error("InstructionsManager.getInstructionsForURL: type of arg 1 is not string");
+	if (typeof url !== "string" && typeof url !== "object") {
+		throw new Error("InstructionsManager.getInstructionsForURL: type of arg 1 is not string or object");
+	} else if (typeof url === "string") {
+		try {
+			url = new URL(url);
+		} catch (error) {
+			throw new Error("InstructionsManager.getInstructionsForURL: arg 1 is not a URL");
+		}
+	} else if (typeof url === "object") {
+		try {
+			url = new URL(url.href);
+		} catch (error) {
+			throw new Error("InstructionsManager.getInstructionsForURL: arg 1 is not a URL");
+		}
 	}
+
 	function getKeyWithGenerator(obj, input, generator) {
 		let result = null;
 		if (obj[input]) {
@@ -99,28 +112,21 @@ instructionsManager.getInstructionsForURL = (url) => {
 		return result;
 	}
 
-	const protocol = url.split("://")[0];
-
-	const host = protocol !== "file" ? url.split("://")[1].match(/^([a-z0-9\-]+\.)*[a-z0-9\-]+/gi)[0] : "";
-
-	var tmp = url
-		.split(host ? host : ":///")[1]
-		.split("#")[0]
-		.split("?")[0]
-		.replace(/\/$/g, "");
-	const path = tmp.match(/^\/.+/g) ? tmp : "";
-
 	let instructions = null;
 
-	let domainKey = getKeyWithGenerator(instructionsManager.instructions, host, instructionsManager.generateAllWildcardDomains);
+	let domainKey = getKeyWithGenerator(instructionsManager.instructions, url.host, instructionsManager.generateAllWildcardDomains);
 	if (domainKey === null) return instructions;
 
-	let pathKey = getKeyWithGenerator(instructionsManager.instructions[domainKey], path, instructionsManager.generateAllWildcardPaths);
+	let pathKey = getKeyWithGenerator(
+		instructionsManager.instructions[domainKey],
+		url.pathname.replace(/\/$/g, ""),
+		instructionsManager.generateAllWildcardPaths
+	);
 	if (pathKey === null) return instructions;
 
 	instructions = instructionsManager.instructions[domainKey][pathKey];
 
-	if (updateChecker.getIsNewVersionAvailable()) {
+	if (updateChecker.checkIfNewVersionIsAvailable()) {
 		instructions.reverse();
 		instructions[instructions.length] = { name: "showNewVersionAlert", arg: updateChecker.latestVersion };
 		instructions.reverse();
@@ -132,7 +138,7 @@ instructionsManager.getInstructionsForURL = (url) => {
 instructionsManager.getOfflineInstructions = () => {
 	return new Promise((resolve, reject) => {
 		var request = new XMLHttpRequest();
-		request.open("GET", instructionsManager.localURL);
+		request.open("GET", instructionsManager.localURL.href);
 		request.onreadystatechange = () => {
 			if (request.readyState === XMLHttpRequest.DONE) {
 				instructionsManager.setInstructions(request.responseText);
@@ -152,7 +158,7 @@ instructionsManager.useOfflineInstructions = () => {
 instructionsManager.getLatestInstructions = () => {
 	return new Promise((resolve, reject) => {
 		var request = new XMLHttpRequest();
-		request.open("GET", instructionsManager.url);
+		request.open("GET", instructionsManager.url.href);
 		request.setRequestHeader("pragma", "no-cache");
 		request.setRequestHeader("cache-control", "no-cache");
 		request.onreadystatechange = () => {
@@ -180,6 +186,8 @@ instructionsManager.useLatestInstructions = () => {
 instructionsManager.addInterval = (intervalTimeout = instructionsManager.intervalTimeout) => {
 	if (typeof intervalTimeout !== "number") {
 		throw new Error("InstructionsManager.addInterval: type of arg 1 is not number");
+	} else if (intervalTimeout < 0) {
+		throw new Error("InstructionsManager.addInterval: arg 1 can't be lower than 0");
 	}
 	instructionsManager.intervalTimeout = intervalTimeout;
 	instructionsManager.intervalIDs[instructionsManager.intervalIDs.length] = setInterval(
@@ -191,6 +199,8 @@ instructionsManager.addInterval = (intervalTimeout = instructionsManager.interva
 instructionsManager.clearInterval = (index = 0) => {
 	if (typeof index !== "number") {
 		throw new Error("InstructionsManager.clearInterval: type of arg 1 is not number");
+	} else if (intervalTimeout < 0) {
+		throw new Error("InstructionsManager.clearInterval: arg 1 can't be lower than 0");
 	}
 	clearInterval(instructionsManager.intervalIDs.splice(index, 1)[0]);
 };

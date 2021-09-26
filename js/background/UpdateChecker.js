@@ -1,5 +1,5 @@
 const updateChecker = {};
-updateChecker.url = "https://github.com/RC-14/StreamScript/releases/latest"; // the URL to the latest github release
+updateChecker.url = new URL("https://github.com/RC-14/StreamScript/releases/latest"); // the URL to the latest github release
 updateChecker.currentVersion = chrome.runtime.getManifest().version;
 updateChecker.latestVersion;
 
@@ -10,7 +10,7 @@ updateChecker.getLatestVersion = () => {
 	return new Promise((resolve, reject) => {
 		var request = new XMLHttpRequest();
 		// get HTML of the GitHub page of the latest release
-		request.open("GET", updateChecker.url);
+		request.open("GET", updateChecker.url.href);
 		request.setRequestHeader("pragma", "no-cache");
 		request.setRequestHeader("cache-control", "no-cache");
 		request.onreadystatechange = () => {
@@ -33,7 +33,7 @@ updateChecker.getLatestVersion = () => {
 	});
 };
 
-updateChecker.getIsNewVersionAvailable = () => {
+updateChecker.checkIfNewVersionIsAvailable = () => {
 	if (typeof updateChecker.latestVersion !== "string") return false;
 
 	for (let i = 0; i < updateChecker.currentVersion.split(".").length; i++) {
@@ -51,6 +51,8 @@ updateChecker.getIsNewVersionAvailable = () => {
 updateChecker.addInterval = (intervalTimeout = updateChecker.intervalTimeout) => {
 	if (typeof intervalTimeout !== "number") {
 		throw new Error("UpdateChecker.addInterval: type of arg 1 is not number");
+	} else if (intervalTimeout < 0) {
+		throw new Error("UpdateChecker.addInterval: arg 1 can't be lower than 0");
 	}
 	updateChecker.intervalTimeout = intervalTimeout;
 	updateChecker.intervalIDs[updateChecker.intervalIDs.length] = setInterval(updateChecker.getLatestVersion, intervalTimeout);
@@ -60,6 +62,8 @@ updateChecker.addInterval = (intervalTimeout = updateChecker.intervalTimeout) =>
 updateChecker.clearInterval = (index = 0) => {
 	if (typeof index !== "number") {
 		throw new Error("UpdateChecker.clearInterval: type of arg 1 is not number");
+	} else if (intervalTimeout < 0) {
+		throw new Error("UpdateChecker.clearInterval: arg 1 can't be lower than 0");
 	}
 	clearInterval(updateChecker.intervalIDs.splice(index, 1)[0]);
 };
