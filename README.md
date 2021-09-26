@@ -18,7 +18,7 @@
 
 * __Add a video player__
   * [x] Create the basic files (index.html, main.js, style.css)
-  * [ ] Change how VideoManager works
+  * [x] Change how VideoManager works
     * [x] Make a second object (and function) for URLs and sources to find the latest source for a URL
     * [x] Ensure that there is only one source per URL (and vice versa) in the objects
   * [ ] Load the video from `location.search` into the video element
