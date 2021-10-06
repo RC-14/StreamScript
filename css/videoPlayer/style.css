@@ -16,3 +16,23 @@ body {
 	display: none !important;
 }
 
+#input {
+	position: absolute;
+	top: 47.5%;
+	left: 25%;
+	right: 25%;
+	text-align: center;
+	background-color: transparent;
+}
+
+#urlInput {
+	width: 100%;
+	border-width: 2px;
+}
+
+#confirmButton {
+	width: 50%;
+	margin: 5px;
+	border-width: 2px;
+}
+
