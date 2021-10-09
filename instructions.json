@@ -1,20 +1,20 @@
 {
 	"vivo.sx": {
-		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}],
-		"/embed/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
+		"/*": [{ "name": "basicRedirectToVideoSrc", "arg": null }],
+		"/embed/*": [{ "name": "basicRedirectToVideoSrc", "arg": null }]
 	},
 	"vivo.st": "vivo.sx",
 
 	"streamtape.com": {
 		"/*/*": [
-			{"name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay"},
-			{"name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay"},
-			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
+			{ "name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay" },
+			{ "name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay" },
+			{ "name": "basicRedirectToVideoSrcWithDelay", "arg": 1000 }
 		],
 		"/*/*/*": [
-			{"name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay"},
-			{"name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay"},
-			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
+			{ "name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay" },
+			{ "name": "clickFirstElementByQuerySelector", "arg": ".plyr-overlay" },
+			{ "name": "basicRedirectToVideoSrcWithDelay", "arg": 1000 }
 		]
 	},
 	"streamta.pe": "streamtape.com",
@@ -28,19 +28,19 @@
 	"strtapeadblock.club": "streamtape.com",
 
 	"vidoza.net": {
-		"/*": [{"name": "basicRedirectToVideoSrc", "arg": null}]
+		"/*": [{ "name": "basicRedirectToVideoSrc", "arg": null }]
 	},
 
 	"mixdrop.co": {
 		"/*/*": [
-			{"name": "clickFirstElementByQuerySelector", "arg": ".vjs-big-play-button"},
-			{"name": "clickFirstElementByQuerySelector", "arg": ".vjs-big-play-button"},
-			{"name": "basicRedirectToVideoSrcWithDelay", "arg": 1000}
+			{ "name": "clickFirstElementByQuerySelector", "arg": ".vjs-big-play-button" },
+			{ "name": "clickFirstElementByQuerySelector", "arg": ".vjs-big-play-button" },
+			{ "name": "basicRedirectToVideoSrcWithDelay", "arg": 1000 }
 		]
 	},
 
 	"evoload.io": {
-		"/v/*": [{"name": "basicRedirectToVideoSrcWithDelay", "arg": 3500}],
-		"/e/*": [{"name": "basicRedirectToVideoSrcWithDelay", "arg": 3500}]
+		"/v/*": [{ "name": "basicRedirectToVideoSrcWithDelay", "arg": 3500 }],
+		"/e/*": [{ "name": "basicRedirectToVideoSrcWithDelay", "arg": 3500 }]
 	}
 }
