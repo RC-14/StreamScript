@@ -11,7 +11,7 @@ const showError = async (title = "ERROR", message = "") => {
 	document.querySelector("#error").classList.remove("hidden");
 };
 
-const getMIMEType = (url) => {
+const getMIMEType = async (url) => {
 	if (typeof url === "object") {
 		url = url?.href;
 	}
