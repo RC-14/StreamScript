@@ -35,19 +35,44 @@ const getMIMEType = async (url) => {
 	});
 };
 
-if (location.search) {
+const setSearchToUrl = (url) => {
+	location.search = encodeURIComponent(url.href);
+};
+
+const showInput = async () => {
+	let func = () => {
+		setSearchToUrl(urlInput.value);
+	};
+
+	urlInput.addEventListener("keydown", (key) => {
+		if (key.code === "Enter") func();
+	});
+	confirmButton.addEventListener("click", func);
+
+	document.querySelector("#input").classList.remove("hidden");
+};
+
+const showContent = async () => {
 	try {
 		let url = new URL(decodeURIComponent(location.search.substr(1)));
 
+		/*Set video.src
+		 *
+		 * check the MIME-Type of whatever the server responds with
+		 *
+		 * if the MIMEType is video/* set video.src
+		 * else load the url into getSrcFrame and try to get the source from there
+		 */
+
 		document.querySelector("#content").classList.remove("hidden");
 	} catch (error) {
-		showError();
+		console.log(error);
+		showError("Error in showContent", error);
 	}
-} else {
-	urlInput.addEventListener("keydown", (key) => {
-		if (key.code === "Enter"); // start function call when enter is pressed
-	});
-	confirmButton.addEventListener("click" /* start function call when the confirm button is pressed */);
+};
 
-	document.querySelector("#input").classList.remove("hidden");
+if (location.search) {
+	showContent();
+} else {
+	showInput();
 }
