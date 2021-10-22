@@ -31,7 +31,7 @@ const getMIMEType = async (url) => {
 			controler.abort(); // abort the request after we received the headers
 
 			resolve(result.headers.get("Content-Type"));
-		});
+		}, reject);
 	});
 };
 
