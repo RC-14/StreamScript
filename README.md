@@ -22,9 +22,9 @@
     * [x] Make a second object (and function) for URLs and sources to find the latest source for a URL
     * [x] Ensure that there is only one source per URL (and vice versa) in the objects
   * [ ] Load the video from `location.search` into the video element
-    * [ ] Load the url into an iframe
-    * [ ] If the MIME-Type is compatible with the video element set the video src to `location.href` of the iframe
-    * [ ] If it's not compatible show an error
+    * [x] ~~Load the url into an iframe~~ Check the MIMEType of the URL
+    * [x] If the MIME-Type is compatible with the video element set the video src to ~~`location.href` of the iframe~~ the url
+    * [x] If it's not compatible show an error
     * [ ] If it's a website try to get a video source from that website and show an error if that fails
   * [ ] Add all the features from `actions.addVideoControls`
   * [ ] Use the video player instead of redirecting to the source video
