@@ -68,7 +68,14 @@ const showContent = async () => {
 		 * else load the url into getSrcFrame and try to get the source from there
 		 */
 
-		document.querySelector("#content").classList.remove("hidden");
+		getMIMEType(url).then((type) => {
+			if (!type.startsWith("video/")) {
+				throw new Error("Can't get video from url: " + url.href);
+			}
+			video.src = url.href;
+
+			document.querySelector("#content").classList.remove("hidden");
+		});
 	} catch (error) {
 		console.log(error);
 		showError("Error in showContent", error);
