@@ -30,7 +30,11 @@ const getMIMEType = async (url) => {
 		fetch(url, { signal: controler.signal }).then((result) => {
 			controler.abort(); // abort the request after we received the headers
 
-			resolve(result.headers.get("Content-Type"));
+			let type = result.headers.get("Content-Type");
+			if (typeof type !== "string") {
+				reject("typeof MIMEType isn't string");
+			}
+			resolve(type);
 		}, reject);
 	});
 };
