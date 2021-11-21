@@ -47,3 +47,19 @@ video {
 	width: 100%;
 	background-color: transparent;
 }
+
+#error {
+	position: absolute;
+	top: 40%;
+	left: calc(100% / 3);
+	right: calc(100% / 3);
+}
+
+#error h1 {
+	color: rgb(200, 30, 30);
+	margin: 10px;
+}
+
+#error p {
+	margin: 5px;
+}

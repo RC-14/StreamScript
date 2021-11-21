@@ -6,8 +6,8 @@ const video = document.querySelector("video");
 const getSrcFrame = document.querySelector("#getSrcFrame");
 
 const showError = async (title = "ERROR", message = "") => {
-	document.querySelector("#error > h3").innerText = title;
-	document.querySelector("#error > p").innerText = message;
+	document.querySelector("#error h1").innerText = title;
+	document.querySelector("#error p").innerText = message;
 	document.querySelector("#error").classList.remove("hidden");
 };
 
