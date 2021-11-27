@@ -18,7 +18,7 @@ const getMIMEType = async (url) => {
 	if (typeof url === "string") {
 		try {
 			url = new URL(url);
-		} catch (error) {
+		} catch (e) {
 			throw new Error("getMIMEType: arg 1 isn't a URL");
 		}
 	} else {
@@ -82,12 +82,12 @@ const showContent = async () => {
 
 		getMIMEType(url).then(
 			(type) => {
-			if (!type.startsWith("video/")) {
-				throw new Error("Can't get video from url: " + url.href);
-			}
-			video.src = url.href;
+				if (!type.startsWith("video/")) {
+					throw new Error("Can't get video from url: " + url.href);
+				}
+				video.src = url.href;
 
-			document.querySelector("#content").classList.remove("hidden");
+				document.querySelector("#content").classList.remove("hidden");
 			},
 			(e) => {
 				showError("getMIMEType failed", e);
