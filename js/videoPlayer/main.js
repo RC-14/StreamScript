@@ -80,17 +80,22 @@ const showContent = async () => {
 		 * else load the url into getSrcFrame and try to get the source from there
 		 */
 
-		getMIMEType(url).then((type) => {
+		getMIMEType(url).then(
+			(type) => {
 			if (!type.startsWith("video/")) {
 				throw new Error("Can't get video from url: " + url.href);
 			}
 			video.src = url.href;
 
 			document.querySelector("#content").classList.remove("hidden");
-		});
-	} catch (error) {
-		console.log(error);
-		showError("Error in showContent", error);
+			},
+			(e) => {
+				showError("getMIMEType failed", e);
+			}
+		);
+	} catch (e) {
+		console.log(e);
+		showError("Error in showContent", e);
 	}
 };
 
