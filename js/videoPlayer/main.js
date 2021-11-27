@@ -40,7 +40,19 @@ const getMIMEType = async (url) => {
 };
 
 const setSearchToUrl = (url) => {
-	location.search = encodeURIComponent(url.href);
+	if (typeof url === "object") {
+		url = url?.href;
+	}
+	if (typeof url === "string") {
+		try {
+			url = new URL(url).href;
+		} catch (e) {
+			url = url;
+		}
+	} else {
+		throw new Error("setSearchToUrl: type missmatch, arg 1 isn't a String or Object");
+	}
+	location.search = encodeURIComponent(url);
 };
 
 const showInput = async () => {
