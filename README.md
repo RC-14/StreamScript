@@ -35,7 +35,7 @@
 
 ---
 
-* __Add a options.html file to configure the extension__
+* __Add an options.html file to configure the extension__
   * [ ] Create the basic files (index.html, main.js, style.css)
   * [ ] Figure out a good way to let the user configure basically everything and replace the ... below
   * [ ] ...
