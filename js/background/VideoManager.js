@@ -18,7 +18,7 @@ videoManager.setUrlSrcPair = (url, src) => {
 
 	videoManager.removeByUrl(url);
 
-	videoManager.urlsForSrcs[url] = src;
+	videoManager.srcsForURLs[url] = src;
 	videoManager.urlsForSrcs[src] = url;
 };
 
