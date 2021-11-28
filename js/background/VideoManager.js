@@ -1,6 +1,6 @@
 const videoManager = {};
 
-videoManager.ulrsForSrcs = {}; // { src: url, ... }
+videoManager.urlsForSrcs = {}; // { src: url, ... }
 videoManager.srcsForURLs = {}; // { url: src, ... }
 
 videoManager.timeCache = {}; // { url: {time, timestamp}, ... }
@@ -9,42 +9,47 @@ videoManager.maxCachedTimeAge = 43200000; // 12h
 videoManager.intervalTimeout = 60000; // 1min
 videoManager.intervalIDs = [];
 
-videoManager.setUrlForSrc = (url, src) => {
+videoManager.setUrlSrcPair = (url, src) => {
 	if (typeof url !== "string") {
-		throw new Error("VideoManager.setUrlForSrc: type of arg 1 is not string");
+		throw new Error("VideoManager.setUrlSrcPair: type of arg 1 is not string");
 	} else if (typeof src !== "string") {
-		throw new Error("VideoManager.setUrlForSrc: type of arg 2 is not string");
+		throw new Error("VideoManager.setUrlSrcPair: type of arg 2 is not string");
 	}
-	videoManager.ulrsForSrcs[src] = url;
-	if (videoManager.srcsForURLs[url]) {
-		videoManager.srcsForURLs[url] = src;
-	}
-};
-videoManager.setSrcForUrl = (src, url) => {
-	if (typeof url !== "string") {
-		throw new Error("VideoManager.setUrlForSrc: type of arg 1 is not string");
-	} else if (typeof src !== "string") {
-		throw new Error("VideoManager.setUrlForSrc: type of arg 2 is not string");
-	}
-	videoManager.srcsForURLs[url] = src;
-	if (videoManager.ulrsForSrcs[src]) {
-		videoManager.ulrsForSrcs[src] = url;
-	}
+
+	videoManager.removeByUrl(url);
+
+	videoManager.urlsForSrcs[url] = src;
+	videoManager.urlsForSrcs[src] = url;
 };
 
-videoManager.removeUrlForSrc = (src) => {
+videoManager.getSrcForUrl = (url) => {
 	if (typeof url !== "string") {
-		throw new Error("VideoManager.setUrlForSrc: type of arg 1 is not string");
+		throw new Error("VideoManager.getSrcForUrl: type of arg 1 is not string");
 	}
-	videoManager.srcsForURLs[videoManager.ulrsForSrcs[src]] = undefined;
-	videoManager.ulrsForSrcs[src] = undefined;
+
+	return videoManager.srcsForURLs[url];
 };
-videoManager.removeSrcForUrl = (url) => {
+videoManager.getUrlForSrc = (src) => {
 	if (typeof url !== "string") {
-		throw new Error("VideoManager.setUrlForSrc: type of arg 1 is not string");
+		throw new Error("VideoManager.getUrlForSrc: type of arg 1 is not string");
 	}
-	videoManager.ulrsForSrcs[videoManager.srcsForURLs[url]] = undefined;
-	videoManager.srcsForURLs[url] = undefined;
+
+	return videoManager.urlsForSrcs[src];
+};
+
+videoManager.removeByUrl = (url) => {
+	if (typeof url !== "string") {
+		throw new Error("VideoManager.removeByUrl: type of arg 1 is not string");
+	}
+	delete videoManager.urlsForSrcs[videoManager.srcsForURLs[url]];
+	delete videoManager.srcsForURLs[url];
+};
+videoManager.removeBySrc = (src) => {
+	if (typeof url !== "string") {
+		throw new Error("VideoManager.removeBySrc: type of arg 1 is not string");
+	}
+	delete videoManager.srcsForURLs[videoManager.urlsForSrcs[src]];
+	delete videoManager.urlsForSrcs[src];
 };
 
 videoManager.setLastTime = (src, time) => {
@@ -53,7 +58,7 @@ videoManager.setLastTime = (src, time) => {
 	} else if (typeof time !== "number") {
 		throw new Error("VideoManager.setLastTime: type of arg 2 is not number");
 	}
-	let url = videoManager.ulrsForSrcs[src];
+	let url = videoManager.urlsForSrcs[src];
 	if (url === undefined) url = src;
 
 	videoManager.timeCache[url] = { time, timestamp: Date.now() };
@@ -62,7 +67,7 @@ videoManager.getLastTime = (src) => {
 	if (typeof src !== "string") {
 		throw new Error("VideoManager.getLastTime: type of arg 1 is not string");
 	}
-	let url = videoManager.ulrsForSrcs[src];
+	let url = videoManager.urlsForSrcs[src];
 	if (url === undefined) url = src;
 
 	let time = null;

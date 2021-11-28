@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			break;
 
 		case messages.redirectToVideoSrc:
-			videoManager.setUrlForSrc(data.url, data.src);
+			videoManager.setUrlSrcPair(data.url, data.src);
 			break;
 
 		case messages.setLastTime:
