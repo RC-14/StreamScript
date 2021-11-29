@@ -1,6 +1,8 @@
 const messages = {};
 messages.getInstrutions = "getInstructions";
 messages.redirectToVideoSrc = "redirectToVideoSrc";
+messages.getSrcForUrl = "getSrcForUrl";
+messages.waitForSrcForUrl = "waitForSrcForUrl";
 messages.setLastTime = "setLastTime";
 messages.getLastTime = "getLastTime";
 
@@ -8,6 +10,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	const message = request.msg;
 	const data = request.data;
 	var response;
+	var doSendResponse = true;
 
 	switch (message) {
 		case null:
@@ -20,6 +23,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 		case messages.redirectToVideoSrc:
 			videoManager.setUrlSrcPair(data.url, data.src);
+			break;
+
+		case messages.getSrcForUrl:
+			videoManager.getSrcForUrl(data);
+			break;
+
+		case messages.waitForSrcForUrl:
+			doSendResponse = false;
+
+			videoManager.waitForSrcForUrl(data).then(sendResponse);
 			break;
 
 		case messages.setLastTime:
@@ -35,5 +48,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			break;
 	}
 
-	sendResponse(response);
+	if (doSendResponse) sendResponse(response);
 });
