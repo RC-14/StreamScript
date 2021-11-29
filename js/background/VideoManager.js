@@ -3,6 +3,8 @@ const videoManager = {};
 videoManager.urlsForSrcs = {}; // { src: url, ... }
 videoManager.srcsForURLs = {}; // { url: src, ... }
 
+videoManager.srcForUrlQueue = []; // [ { url: "...", resolve: function resolve }, ...]
+
 videoManager.timeCache = {}; // { url: {time, timestamp}, ... }
 videoManager.maxCachedTimeAge = 43200000; // 12h
 
@@ -20,6 +22,22 @@ videoManager.setUrlSrcPair = (url, src) => {
 
 	videoManager.srcsForURLs[url] = src;
 	videoManager.urlsForSrcs[src] = url;
+
+	let resolved = [];
+
+	for (let i = 0; i < videoManager.srcForUrlQueue.length; i++) {
+		if (videoManager.srcForUrlQueue[i]?.url !== url) continue;
+
+		videoManager.srcForUrlQueue[i]?.resolve(src);
+		resolved.push(i);
+	}
+
+	resolved.reverse(); // remove entries with highest index first because the others wouldn't be correct anymore if we remove entries with a lower index first
+
+	for (let i = 0; i < resolved.length; i++) {
+		clearTimeout(videoManager.srcForUrlQueue[resolved[i]].timeoutID);
+		videoManager.srcForUrlQueue.splice(resolved[i], 1); // remove the entry from the queue
+	}
 };
 
 videoManager.getSrcForUrl = (url) => {
@@ -35,6 +53,28 @@ videoManager.getUrlForSrc = (src) => {
 	}
 
 	return videoManager.urlsForSrcs[src];
+};
+
+videoManager.waitForSrcForUrl = (url) => {
+	if (typeof url !== "string") {
+		throw new Error("VideoManager.getUrlForSrc: type of arg 1 is not string");
+	}
+
+	return new Promise((resolve, reject) => {
+		let entry = {
+			url,
+			resolve,
+			timeoutID: -1,
+		};
+
+		let index = videoManager.srcForUrlQueue.push(entry) - 1; // add entry to the queue and remember its position
+
+		entry.timeoutID = setTimeout(() => {
+			videoManager.srcForUrlQueue.splice(index, 1); // remove entry from queue
+
+			reject("Waited 5 minutes");
+		}, /*5000); //*/ 300000 /* 5 minutes */);
+	});
 };
 
 videoManager.removeByUrl = (url) => {
