@@ -1,6 +1,6 @@
 const messages = {};
 messages.getInstrutions = "getInstructions";
-messages.redirectToVideoSrc = "redirectToVideoSrc";
+messages.setUrlSrcPair = "setUrlSrcPair";
 messages.getSrcForUrl = "getSrcForUrl";
 messages.waitForSrcForUrl = "waitForSrcForUrl";
 messages.setLastTime = "setLastTime";
@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			response = instructionsManager.getInstructionsForURL(data);
 			break;
 
-		case messages.redirectToVideoSrc:
+		case messages.setUrlSrcPair:
 			videoManager.setUrlSrcPair(data.url, data.src);
 			break;
 

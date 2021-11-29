@@ -68,7 +68,7 @@ actions.redirectToVideoSrc = (url) => {
 		throw new Error("actions.redirectToVideoSrc: type of arg 1 is not string");
 	}
 	console.log(messages);
-	chrome.runtime.sendMessage({ msg: messages.redirectToVideoSrc, data: { url: location.href, src: url } }, () => {
+	chrome.runtime.sendMessage({ msg: messages.setUrlSrcPair, data: { url: location.href, src: url } }, () => {
 		actions.redirect(url);
 	});
 };
