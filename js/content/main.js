@@ -9,10 +9,10 @@ function executeInstructions(instructions) {
 	}
 }
 
-let messages;
+var messages;
 
-chrome.runtime.sendMessage({ msg: null }, (msgs) => {
-	messages = msgs;
+chrome.runtime.sendMessage({ msg: null }, (messages) => {
+	window.messages = messages;
 
 	if (document.contentType.startsWith("video/")) {
 		actions.addVideoControls();
