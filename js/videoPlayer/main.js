@@ -84,10 +84,17 @@ const showContent = async () => {
 
 		getMIMEType(url).then(
 			(type) => {
-				if (!type.startsWith("video/")) {
+				if (type.startsWith("video/")) {
+					video.src = url.href;
+				} else if (type.startsWith("text/html")) {
+					chrome.runtime.sendMessage({ msg: messages.waitForSrcForUrl, data: url.href }, (src) => {
+						video.src = src;
+					});
+
+					getSrcFrame.src = url.href;
+				} else {
 					throw new Error("Can't get video from url: " + url.href);
 				}
-				video.src = url.href;
 
 				document.querySelector("#content").classList.remove("hidden");
 			},
