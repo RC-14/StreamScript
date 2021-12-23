@@ -63,7 +63,7 @@ videoManager.waitForSrcForUrl = (url) => {
 	return new Promise((resolve, reject) => {
 		let entry = {
 			url,
-			resolve,
+			resolve, // gets resolved in setUrlSrcPair
 			timeoutID: -1,
 		};
 
