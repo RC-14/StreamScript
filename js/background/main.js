@@ -33,7 +33,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			doSendResponse = false;
 
 			videoManager.waitForSrcForUrl(data).then(sendResponse, () => {
-				sendResponse(false);
+				sendResponse("");
 			});
 			break;
 
