@@ -1,3 +1,5 @@
+var messages;
+
 const inputDiv = document.querySelector("#input");
 const urlInput = document.querySelector("#urlInput");
 const confirmButton = document.querySelector("#confirmButton");
@@ -104,3 +106,7 @@ if (location.search) {
 } else {
 	showInput();
 }
+
+chrome.runtime.sendMessage({ msg: null }, (messages) => {
+	window.messages = messages;
+});
