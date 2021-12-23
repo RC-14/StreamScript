@@ -87,8 +87,12 @@ const showContent = async () => {
 				if (type.startsWith("video/")) {
 					video.src = url.href;
 				} else if (type.startsWith("text/html")) {
-					chrome.runtime.sendMessage({ msg: messages.waitForSrcForUrl, data: url.href }, (src) => {
-						video.src = src;
+					chrome.runtime.sendMessage({ msg: messages.waitForSrcForUrl, data: url.href }, (response) => {
+						if (response.length === 0) {
+							showError("waitForSrcForUrl failed", "Received an empty string.");
+							return;
+						}
+						video.src = response;
 					});
 
 					getSrcFrame.src = url.href;
