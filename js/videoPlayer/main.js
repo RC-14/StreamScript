@@ -72,7 +72,7 @@ const showInput = async () => {
 
 const showContent = async () => {
 	try {
-		let url = new URL(decodeURIComponent(location.search.substr(1)));
+		let url = new URL(decodeURIComponent(location.search.substring(1)));
 
 		/*Set video.src
 		 *
