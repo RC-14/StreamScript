@@ -113,7 +113,7 @@ const showContent = async () => {
 };
 
 // allow
-getSrcFrame.allow = ["execution-while-not-rendered", "execution-while-out-of-viewport"].join("*; ") + "*;";
+getSrcFrame.allow = ["execution-while-not-rendered", "execution-while-out-of-viewport"].join(" *; ") + " *;";
 
 // disallow
 getSrcFrame.allow +=
@@ -141,8 +141,8 @@ getSrcFrame.allow +=
 		"screen-wake-lock",
 		"web-share",
 		"xr-spatial-tracking",
-	].join("'none'; ") +
-	"'none';";
+	].join(" 'none'; ") +
+	" 'none';";
 
 if (location.search) {
 	showContent();
