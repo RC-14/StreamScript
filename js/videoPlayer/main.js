@@ -112,37 +112,11 @@ const showContent = async () => {
 	}
 };
 
-// allow
-getSrcFrame.allow = ["execution-while-not-rendered", "execution-while-out-of-viewport"].join(" *; ") + " *;";
-
 // disallow
-getSrcFrame.allow +=
-	" " +
-	[
-		"accelerometer",
-		"ambient-light-sensor",
-		"autoplay",
-		"battery",
-		"camera",
-		"display-capture",
-		"document-domain",
-		"fullscreen",
-		"gamepad",
-		"geolocation",
-		"gyroscope",
-		"layout-animations",
-		"magnetometer",
-		"microphone",
-		"midi",
-		"payment",
-		"picture-in-picture",
-		"speaker-selection",
-		"usb",
-		"screen-wake-lock",
-		"web-share",
-		"xr-spatial-tracking",
-	].join(" 'none'; ") +
-	" 'none';";
+getSrcFrame.allow =
+	["camera", "display-capture", "fullscreen", "gamepad", "geolocation", "microphone", "speaker-selection", "web-share"].join(
+		" 'none'; "
+	) + " 'none';";
 
 if (location.search) {
 	showContent();
