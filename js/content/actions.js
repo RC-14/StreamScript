@@ -67,8 +67,8 @@ actions.redirectToVideoSrc = (url) => {
 	if (typeof url !== "string") {
 		throw new Error("actions.redirectToVideoSrc: type of arg 1 is not string");
 	}
-	console.log(messages);
-	chrome.runtime.sendMessage({ msg: messages.setUrlSrcPair, data: { url: location.href, src: url } }, () => {
+	console.log(window.messages);
+	chrome.runtime.sendMessage({ msg: window.messages.setUrlSrcPair, data: { url: location.href, src: url } }, () => {
 		actions.redirect(url);
 	});
 };
@@ -151,12 +151,12 @@ actions.addVideoControls = () => {
 	video.pause();
 	video.currentTime = 0;
 
-	chrome.runtime.sendMessage({ msg: messages.getLastTime, data: location.href }, (response) => {
+	chrome.runtime.sendMessage({ msg: window.messages.getLastTime, data: location.href }, (response) => {
 		video.currentTime = typeof response === "number" ? response : 0;
 	});
 	setInterval(() => {
 		chrome.runtime.sendMessage(
-			{ msg: messages.setLastTime, data: { url: location.href, time: video.currentTime } },
+			{ msg: window.messages.setLastTime, data: { url: location.href, time: video.currentTime } },
 			(response) => {}
 		);
 	}, 500);
