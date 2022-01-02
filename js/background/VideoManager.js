@@ -26,9 +26,9 @@ videoManager.setUrlSrcPair = (url, src) => {
 	let resolved = [];
 
 	for (let i = 0; i < videoManager.srcForUrlQueue.length; i++) {
-		if (videoManager.srcForUrlQueue[i]?.url !== url) continue;
+		if (videoManager.srcForUrlQueue[i].url !== url) continue;
 
-		videoManager.srcForUrlQueue[i]?.resolve(src);
+		videoManager.srcForUrlQueue[i].resolve(src);
 		resolved.push(i);
 	}
 
