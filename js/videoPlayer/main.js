@@ -118,12 +118,12 @@ getSrcFrame.allow =
 		" 'none'; "
 	) + " 'none';";
 
-if (location.search) {
-	showContent();
-} else {
-	showInput();
-}
-
 chrome.runtime.sendMessage({ msg: null }, (messages) => {
 	window.messages = messages;
+
+	if (location.search) {
+		showContent();
+	} else {
+		showInput();
+	}
 });
