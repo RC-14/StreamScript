@@ -87,15 +87,24 @@ const showContent = async () => {
 				if (type.startsWith("video/")) {
 					video.src = url.href;
 				} else if (type.startsWith("text/html")) {
-					chrome.runtime.sendMessage({ msg: messages.waitForSrcForUrl, data: url.href }, (response) => {
-						if (response.length === 0) {
-							showError("waitForSrcForUrl failed", "Received an empty string.");
-							return;
-						}
-						video.src = response;
+					video.addEventListener("error", () => {
+						chrome.runtime.sendMessage({ msg: messages.waitForSrcForUrl, data: url.href }, (response) => {
+							try {
+								response = new URL(response); // check if response is an URL - throws an error if not
+								video.src = response.href;
+
+								getSrcFrame.src = null;
+							} catch (error) {
+								showError("waitForSrcForUrl failed", "Didn't receive an URL");
+							}
+						});
+
+						getSrcFrame.src = url.href;
 					});
 
-					getSrcFrame.src = url.href;
+					chrome.runtime.sendMessage({ msg: messages.getSrcForUrl, data: url.href }, (response) => {
+						video.src = response || null;
+					});
 				} else {
 					throw new Error("Can't get video from url: " + url.href);
 				}
