@@ -26,7 +26,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			break;
 
 		case messages.getSrcForUrl:
-			videoManager.getSrcForUrl(data);
+			response = videoManager.getSrcForUrl(data);
 			break;
 
 		case messages.waitForSrcForUrl:
