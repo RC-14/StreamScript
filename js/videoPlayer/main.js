@@ -48,8 +48,8 @@ const setSearchToUrl = (url) => {
 	if (typeof url === "string") {
 		try {
 			url = new URL(url).href;
-		} catch (e) {
-			url = url;
+		} catch (error) {
+			throw new Error("setSearchToUrl: arg 1 isn't a url");
 		}
 	} else {
 		throw new Error("setSearchToUrl: type missmatch, arg 1 isn't a String or Object");
