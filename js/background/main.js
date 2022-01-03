@@ -30,11 +30,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			break;
 
 		case messages.waitForSrcForUrl:
-			doSendResponse = false;
-
-			videoManager.waitForSrcForUrl(data).then(sendResponse, () => {
-				sendResponse("");
-			});
+			response = videoManager.waitForSrcForUrl(data);
 			break;
 
 		case messages.setLastTime:
