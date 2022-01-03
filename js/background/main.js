@@ -9,7 +9,7 @@ messages.getLastTime = "getLastTime";
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	const message = request.msg;
 	const data = request.data;
-	var response;
+	var response = undefined;
 	var doSendResponse = true;
 
 	switch (message) {
