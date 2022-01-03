@@ -15,12 +15,13 @@ const showError = async (title = "ERROR", message = "") => {
 
 const getMIMEType = async (url) => {
 	if (typeof url === "object") {
+		// in case we get a url object
 		url = url?.href;
 	}
 	if (typeof url === "string") {
 		try {
 			url = new URL(url);
-		} catch (e) {
+		} catch (error) {
 			throw new Error("getMIMEType: arg 1 isn't a URL");
 		}
 	} else {
@@ -43,6 +44,7 @@ const getMIMEType = async (url) => {
 
 const setSearchToUrl = (url) => {
 	if (typeof url === "object") {
+		// in case we get a url object
 		url = url?.href;
 	}
 	if (typeof url === "string") {
@@ -85,15 +87,19 @@ const showContent = async () => {
 		getMIMEType(url).then(
 			(type) => {
 				if (type.startsWith("video/")) {
+					// it's a video, just set the src attribute
 					video.src = url.href;
 				} else if (type.startsWith("text/html")) {
+					// it's a website, try to get the src (we may already have it)
+
+					// in case that loading a video from the src fails we try to get a new src
 					video.addEventListener("error", () => {
 						chrome.runtime.sendMessage({ msg: messages.waitForSrcForUrl, data: url.href }, (response) => {
 							try {
 								response = new URL(response); // check if response is an URL - throws an error if not
 								video.src = response.href;
 
-								getSrcFrame.src = null;
+								getSrcFrame.src = null; // unload the website used to get the src
 							} catch (error) {
 								showError("waitForSrcForUrl failed", "Didn't receive an URL");
 							}
@@ -102,8 +108,9 @@ const showContent = async () => {
 						getSrcFrame.src = url.href;
 					});
 
+					// check if we already have the src
 					chrome.runtime.sendMessage({ msg: messages.getSrcForUrl, data: url.href }, (response) => {
-						video.src = response || null;
+						video.src = response || null; // if we don't already the src make the video fail to load to get a new one
 					});
 				} else {
 					throw new Error("Can't get video from url: " + url.href);
@@ -121,7 +128,7 @@ const showContent = async () => {
 	}
 };
 
-// disallow
+// disallow stuff that the frame doesn't need
 getSrcFrame.allow =
 	["camera", "display-capture", "fullscreen", "gamepad", "geolocation", "microphone", "speaker-selection", "web-share"].join(
 		" 'none'; "
