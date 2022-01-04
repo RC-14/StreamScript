@@ -73,7 +73,7 @@ videoManager.waitForSrcForUrl = (url) => {
 			videoManager.srcForUrlQueue.splice(index, 1); // remove entry from queue
 
 			reject("Waited 5 minutes");
-		}, 300000 /* 5 minutes */);
+		}, 60000 /* 1 minute */);
 	});
 };
 
