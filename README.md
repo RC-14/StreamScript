@@ -25,11 +25,11 @@
     * [x] ~~Load the url into an iframe~~ Check the MIMEType of the URL
     * [x] If the MIME-Type is compatible with the video element set the video src to ~~`location.href` of the iframe~~ the url
     * [x] If it's not compatible show an error
-    * [x] If it's a website try to get a video source from that website and show an error if that fails
+    * [x] If it's a website try to get a video source from that website (and show an error if that fails)
   * [ ] Add all the features from `actions.addVideoControls`
   * [ ] Use the video player instead of redirecting to the source video
     * [ ] Edit all redirect actions to redirect to the video player
-  * [ ] Automatically get a new source when the old one isn't available anymore
+  * [x] Automatically get a new source when the old one isn't available anymore
   * [ ] Support m3u8 (and similar) files
   * [ ] Optional: Don't use the default style from the browser
 
