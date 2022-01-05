@@ -176,6 +176,46 @@ const showContent = async () => {
 					}
 				}
 
+				// add keyboard shortcuts
+				document.addEventListener("keydown", (key) => {
+					switch (key.code) {
+						case "KeyF":
+							fullscreenFunction();
+							break;
+
+						case "KeyS":
+							skipOpeningFunction();
+							break;
+
+						case "KeyJ":
+							rewind10SecondsFunction();
+							break;
+
+						case "KeyK":
+							pauseOrPlayFunction();
+							break;
+
+						case "KeyL":
+							skip10SecondsFunction();
+							break;
+
+						case "KeyO":
+							increaseVolumeFunction();
+							break;
+
+						case "KeyI":
+							decreaseVolumeFunction();
+							break;
+
+						case "KeyM":
+							muteOrUnmuteFunction();
+							break;
+
+						default:
+							break;
+					}
+				});
+
 				// add functionality to buttons etc.
 				helpButton.addEventListener("click", () => {
 					video.pause();
