@@ -1,4 +1,5 @@
 const messages = {};
+messages.redirectMe = "redirectMe";
 messages.getInstrutions = "getInstructions";
 messages.setUrlSrcPair = "setUrlSrcPair";
 messages.getSrcForUrl = "getSrcForUrl";
@@ -15,6 +16,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	switch (message) {
 		case null:
 			response = messages;
+			break;
+
+		case messages.redirectMe:
+			if (sender?.tab?.id) {
+				chrome.tabs.update(sender.tab.id, { url: data });
+			}
 			break;
 
 		case messages.getInstrutions:
