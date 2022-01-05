@@ -177,14 +177,16 @@ const showContent = async () => {
 				}
 
 				// add keyboard shortcuts
-				document.addEventListener("keydown", (key) => {
-					switch (key.code) {
+				document.addEventListener("keydown", (event) => {
+					if (["KeyF", "KeyI", "KeyJ", "KeyK", "KeyL", "KeyM", "KeyO", "KeyS"].includes(event.code)) event.preventDefault();
+
+					switch (event.code) {
 						case "KeyF":
 							fullscreenFunction();
 							break;
 
-						case "KeyS":
-							skipOpeningFunction();
+						case "KeyI":
+							decreaseVolumeFunction();
 							break;
 
 						case "KeyJ":
@@ -199,16 +201,16 @@ const showContent = async () => {
 							skip10SecondsFunction();
 							break;
 
+						case "KeyM":
+							muteOrUnmuteFunction();
+							break;
+
 						case "KeyO":
 							increaseVolumeFunction();
 							break;
 
-						case "KeyI":
-							decreaseVolumeFunction();
-							break;
-
-						case "KeyM":
-							muteOrUnmuteFunction();
+						case "KeyS":
+							skipOpeningFunction();
 							break;
 
 						default:
