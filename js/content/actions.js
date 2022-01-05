@@ -25,7 +25,9 @@ function checkIfUrlAvailabe(url) {
 	});
 }
 
-// all actions that can be used in instructions
+/* all actions that can be used in instructions
+ * always use window.messages to access messages otherwiseit wont work
+ */
 const actions = {};
 actions.showNewVersionAlert = (newVersion) => {
 	if (typeof newVersion !== "string") {
