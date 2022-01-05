@@ -19,9 +19,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			break;
 
 		case messages.redirectMe:
-			if (sender?.tab?.id) {
-				chrome.tabs.update(sender.tab.id, { url: data });
-			}
+			if (sender?.tab?.id) chrome.tabs.update(sender.tab.id, { url: data });
 			break;
 
 		case messages.getInstrutions:

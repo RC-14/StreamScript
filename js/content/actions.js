@@ -61,15 +61,19 @@ actions.redirect = (url) => {
 	if (typeof url !== "string") {
 		throw new Error("actions.redirect: type of arg 1 is not string");
 	}
-	open(url, "_self", "noopener, noreferrer");
+
+	chrome.runtime.sendMessage({ msg: window.messages.redirectMe, data: url });
 };
-actions.redirectToVideoSrc = (url) => {
-	if (typeof url !== "string") {
+actions.redirectToVideoSrc = (src) => {
+	if (typeof src !== "string") {
 		throw new Error("actions.redirectToVideoSrc: type of arg 1 is not string");
 	}
 	console.log(window.messages);
-	chrome.runtime.sendMessage({ msg: window.messages.setUrlSrcPair, data: { url: location.href, src: url } }, () => {
-		actions.redirect(url);
+	chrome.runtime.sendMessage({ msg: window.messages.setUrlSrcPair, data: { url: location.href, src: src } }, () => {
+		let url = new URL(chrome.runtime.getURL("html/videoPlayer/index.html"));
+		url.search = encodeURIComponent(location.href);
+
+		actions.redirect(url.href);
 	});
 };
 
