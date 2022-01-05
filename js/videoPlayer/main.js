@@ -195,6 +195,8 @@ const showContent = async () => {
 							"ArrowRight",
 							"ArrowUp",
 							"ArrowDown",
+							"PageUp",
+							"PageDown",
 						].includes(event.code)
 					)
 						event.preventDefault();
@@ -252,6 +254,14 @@ const showContent = async () => {
 							decreaseVolumeFunction();
 							break;
 
+						case "PageUp":
+							skipFunction(30);
+							break;
+
+						case "PageDown":
+							rewindFunction(30);
+							break;
+
 						default:
 							break;
 					}
@@ -263,14 +273,16 @@ const showContent = async () => {
 					alert(
 						"Video controls:\n" +
 							[
-								'"F" = Fullscreen on/off',
-								'"S" = skip opening (87 seconds)',
-								'"J" = rewind 10 Seconds',
-								'"K" = pause/play',
-								'"L" = skip 10 seconds',
-								'"O" = increase volume',
-								'"I" = decrease volume',
-								'"M" = mute/unmute',
+								'"F"\t\t\t\t= Fullscreen on/off',
+								'"I"\t\t\t\t= decrease volume',
+								'"J"\t\t\t\t= rewind 10 Seconds',
+								'"K"\t\t\t\t= pause/play',
+								'"L"\t\t\t\t= skip 10 seconds',
+								'"M"\t\t\t\t= mute/unmute',
+								'"O"\t\t\t\t= increase volume',
+								'"S"\t\t\t\t= skip opening (87 seconds)',
+								'"Page Up"\t\t= skip 30 seconds',
+								'"Page Down"\t= rewind 30 seconds',
 								"\nand default controls (space and arrow keys)",
 							].join("\n")
 					);
