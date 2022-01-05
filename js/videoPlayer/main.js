@@ -147,11 +147,11 @@ const showContent = async () => {
 						video.pause();
 					}
 				}
-				function skip10SecondsFunction() {
-					video.currentTime += 10;
+				function skipFunction(time) {
+					video.currentTime += time;
 				}
-				function rewind10SecondsFunction() {
-					video.currentTime -= 10;
+				function rewindFunction(time) {
+					video.currentTime -= time;
 				}
 				function increaseVolumeFunction() {
 					if (video.volume > 0.9 && video.volume < 1) {
@@ -192,7 +192,7 @@ const showContent = async () => {
 							break;
 
 						case "KeyJ":
-							rewind10SecondsFunction();
+							rewindFunction(10);
 							break;
 
 						case "KeyK":
@@ -200,7 +200,7 @@ const showContent = async () => {
 							break;
 
 						case "KeyL":
-							skip10SecondsFunction();
+							skipFunction(10);
 							break;
 
 						case "KeyM":
