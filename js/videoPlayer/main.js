@@ -138,12 +138,6 @@ const showContent = async () => {
 						}
 					}
 				}
-				function skipOpeningFunction() {
-					video.currentTime += openingLength;
-				}
-				function rewind10SecondsFunction() {
-					video.currentTime -= 10;
-				}
 				function pauseOrPlayFunction() {
 					if (video.paused) {
 						video.play();
@@ -153,6 +147,9 @@ const showContent = async () => {
 				}
 				function skip10SecondsFunction() {
 					video.currentTime += 10;
+				}
+				function rewind10SecondsFunction() {
+					video.currentTime -= 10;
 				}
 				function increaseVolumeFunction() {
 					if (video.volume > 0.9 && video.volume < 1) {
@@ -174,6 +171,9 @@ const showContent = async () => {
 					} else {
 						video.muted = true;
 					}
+				}
+				function skipOpeningFunction() {
+					video.currentTime += 90 - 3; // usual length of the opening (90 seconds) minus some time the user needs to skip (3 seconds)
 				}
 
 				// add keyboard shortcuts
