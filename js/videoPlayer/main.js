@@ -71,6 +71,8 @@ const showInput = async () => {
 	confirmButton.addEventListener("click", func);
 
 	document.querySelector("#input").classList.remove("hidden");
+
+	urlInput.focus();
 };
 
 const showContent = async () => {
