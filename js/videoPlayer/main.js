@@ -128,6 +128,54 @@ const showContent = async () => {
 					);
 				}, 1000 /* 1 second */);
 
+				// add all the functions
+				function fullscreenFunction() {
+					if (!document.fullscreenElement) {
+						video.requestFullscreen();
+					} else {
+						if (document.exitFullscreen) {
+							document.exitFullscreen();
+						}
+					}
+				}
+				function skipOpeningFunction() {
+					video.currentTime += openingLength;
+				}
+				function rewind10SecondsFunction() {
+					video.currentTime -= 10;
+				}
+				function pauseOrPlayFunction() {
+					if (video.paused) {
+						video.play();
+					} else {
+						video.pause();
+					}
+				}
+				function skip10SecondsFunction() {
+					video.currentTime += 10;
+				}
+				function increaseVolumeFunction() {
+					if (video.volume > 0.9 && video.volume < 1) {
+						video.volume = 1;
+					} else if (video.volume < 1) {
+						video.volume += 0.1;
+					}
+				}
+				function decreaseVolumeFunction() {
+					if (video.volume < 0.1 && video.volume > 0) {
+						video.volume = 0;
+					} else if (video.volume > 0) {
+						video.volume -= 0.1;
+					}
+				}
+				function muteOrUnmuteFunction() {
+					if (video.muted) {
+						video.muted = false;
+					} else {
+						video.muted = true;
+					}
+				}
+
 				// add functionality to buttons etc.
 				helpButton.addEventListener("click", () => {
 					video.pause();
