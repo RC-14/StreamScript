@@ -6,6 +6,7 @@ const confirmButton = document.querySelector("#confirmButton");
 const contentDiv = document.querySelector("#content");
 const video = document.querySelector("video");
 const getSrcFrame = document.querySelector("#getSrcFrame");
+const helpButton = document.querySelector("#helpButton");
 
 const showError = async (title = "ERROR", message = "") => {
 	document.querySelector("#error h1").innerText = title;
@@ -115,6 +116,25 @@ const showContent = async () => {
 				} else {
 					throw new Error("Can't get video from url: " + url.href);
 				}
+
+				// add functionality to buttons etc.
+				helpButton.addEventListener("click", () => {
+					video.pause();
+					alert(
+						"Video controls:\n" +
+							[
+								'"F" = Fullscreen on/off',
+								'"S" = skip opening (87 seconds)',
+								'"J" = rewind 10 Seconds',
+								'"K" = pause/play',
+								'"L" = skip 10 seconds',
+								'"O" = increase volume',
+								'"I" = decrease volume',
+								'"M" = mute/unmute',
+								"\nand default controls (space and arrow keys)",
+							].join("\n")
+					);
+				});
 
 				document.querySelector("#content").classList.remove("hidden");
 			},

@@ -41,7 +41,20 @@ body {
 	background-color: transparent;
 }
 
-video {
+#helpButton {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	padding: 1x;
+	border-radius: 10px;
+	border-color: darkgrey;
+	background-color: grey;
+	color: black;
+	font-size: 20px;
+	font-weight: bolder;
+}
+
+#content video {
 	height: 100vh;
 	width: 100%;
 	background-color: transparent;
