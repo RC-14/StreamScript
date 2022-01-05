@@ -117,6 +117,17 @@ const showContent = async () => {
 					throw new Error("Can't get video from url: " + url.href);
 				}
 
+				// get and set last time for video
+				chrome.runtime.sendMessage({ msg: window.messages.getLastTime, data: url.href }, (response) => {
+					video.currentTime = typeof response === "number" && response !== NaN && response > 0 ? response : 0;
+				});
+				setInterval(() => {
+					chrome.runtime.sendMessage(
+						{ msg: window.messages.setLastTime, data: { url: url.href, time: video.currentTime } },
+						(response) => {}
+					);
+				}, 1000 /* 1 second */);
+
 				// add functionality to buttons etc.
 				helpButton.addEventListener("click", () => {
 					video.pause();
