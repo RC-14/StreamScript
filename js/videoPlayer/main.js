@@ -147,7 +147,7 @@ const showContent = async () => {
 						video.pause();
 					}
 				}
-				function skipFunction(time) {
+				function forwardFunction(time) {
 					video.currentTime += time;
 				}
 				function rewindFunction(time) {
@@ -223,7 +223,7 @@ const showContent = async () => {
 							break;
 
 						case "KeyL":
-							skipFunction(10);
+							forwardFunction(10);
 							break;
 
 						case "KeyM":
@@ -243,7 +243,7 @@ const showContent = async () => {
 							break;
 
 						case "ArrowRight":
-							skipFunction(10);
+							forwardFunction(10);
 							break;
 
 						case "ArrowUp":
@@ -255,7 +255,7 @@ const showContent = async () => {
 							break;
 
 						case "PageUp":
-							skipFunction(30);
+							forwardFunction(30);
 							break;
 
 						case "PageDown":
@@ -277,11 +277,11 @@ const showContent = async () => {
 								'"I"\t\t\t\t= decrease volume',
 								'"J"\t\t\t\t= rewind 10 Seconds',
 								'"K"\t\t\t\t= pause/play',
-								'"L"\t\t\t\t= skip 10 seconds',
+								'"L"\t\t\t\t= forward 10 seconds',
 								'"M"\t\t\t\t= mute/unmute',
 								'"O"\t\t\t\t= increase volume',
-								'"S"\t\t\t\t= skip opening (87 seconds)',
-								'"Page Up"\t\t= skip 30 seconds',
+								'"S"\t\t\t\t= skip opening (forward 87 seconds)',
+								'"Page Up"\t\t= forward 30 seconds',
 								'"Page Down"\t= rewind 30 seconds',
 								"\nand default controls (space and arrow keys)",
 							].join("\n")
