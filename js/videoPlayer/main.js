@@ -290,13 +290,14 @@ const showContent = async () => {
 
 				document.querySelector("#content").classList.remove("hidden");
 			},
-			(e) => {
-				showError("getMIMEType failed", e);
+			(error) => {
+				console.error(error);
+				showError("getMIMEType failed", error);
 			}
 		);
-	} catch (e) {
-		console.log(e);
-		showError("Error in showContent", e);
+	} catch (error) {
+		console.error(error);
+		showError("Error in showContent", error);
 	}
 };
 
