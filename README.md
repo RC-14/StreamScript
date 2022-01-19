@@ -30,7 +30,7 @@
   * [x] Use the video player instead of redirecting to the source video
   * [x] Automatically get a new source when the old one isn't available anymore
   * [ ] Support m3u8 (and similar) files
-  * [ ] Optional: Don't use the default style from the browser
+  * [ ] Optional: Make it look pretty
 
 ---
 
