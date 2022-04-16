@@ -16,13 +16,6 @@
 
 ---
 
-* __Switch from JavaScript to TypeScript__
-  * [ ] Learn TypeScript (good enough...)
-  * [ ] Final decision - JS: to YEET or not to yeet
-  * [ ] Actually switch or remove this TODO list
-
----
-
 * __Add a video player__
   * [x] Create the basic files (index.html, main.js, style.css)
   * [x] Change how VideoManager works
